@@ -1,0 +1,32 @@
+<ion-header>
+    <ion-toolbar color="dark" (click)="refreshData()">
+        <ion-title>
+            <ion-icon class="menu" name="menu"></ion-icon>
+                Boston
+            <ion-icon class="refresh" [ngClass]="refresherClass()" name="refresh"></ion-icon>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content *ngIf=!loading [ngClass]="loading ? '' : 'fade-in'">
+<!--     <ion-refresher slot="fixed"
+                   (ionRefresh)="refreshData()"
+                   pullingIcon="refresh"
+                   disabled="disableRefresh">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher> -->
+    <ion-slides [options]="slideOpts">
+        <ion-slide>
+            <main-card
+                       (minutelyCard)="toggleMinuteCard()"
+                       [ngClass]="minutelyCardVisible ? 'expanded' : 'collapsed'">
+            </main-card>
+            <minutely-card [ngClass]="minutelyCardVisible ? 'show' : 'hide'"
+                           (minutelyCard)="toggleMinuteCard($event)">
+            </minutely-card>
+            <hourly-card></hourly-card>
+        </ion-slide>
+        <ion-slide>
+            <daily-card></daily-card>
+        </ion-slide>
+    </ion-slides>
+</ion-content>

@@ -1,0 +1,33 @@
+<ion-content>
+    <ion-card class="main-card">
+      <ion-card-header>
+        <ion-card-title>
+          {{ weatherHourly.summary }}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content class="main-card">
+        <ion-list>
+          <ion-item *ngFor="let hour of weatherHourly.data.slice(0, 24)" (click)="expandItem(hour)" class="hourly hide">
+            <ion-card class="list-item">
+              <ion-card-content class="list-item">
+                <div class="list-item">
+                  <div class="hourly-box">
+                    <div class="pre-box">
+                      <p class="hour">{{ getFormattedTime(hour.time) }}</p>
+                      <p class="summary">{{ hour.summary }}</p>
+                    </div>
+                    <p class="temp">{{ round(hour.apparentTemperature) }}</p>
+                    <img [src]="getWeatherIcon(hour)" class="weather-icon" />
+                    <div class="post-box">
+                      <p class="precip">Precip:</p>
+                      <p class="rain">{{ hour.precipProbability | percent }}</p>
+                    </div>
+                  </div>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+</ion-content>

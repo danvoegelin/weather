@@ -1,0 +1,39 @@
+// App Styles
+// ----------------------------------------------------------------------------
+// Put style rules here that you want to apply to the entire application. These 
+// styles are for the entire app and not just one component. Additionally, this 
+// file can hold Sass mixins, functions, and placeholder classes to be imported 
+// and used throughout the application.
+
+ion-content {
+  background: transparent;
+  --background: transparent;
+  ion-card.main-card {
+    overflow: hidden;
+    background: white;
+    display: block;
+    margin: 0;
+    ion-card-header {
+      padding: 8px 10px;        
+      ion-card-title {
+        font-size: 14px;
+        text-align: left;
+      }
+    }
+    ion-card-content {
+      ion-card-subtitle {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@-webkit-keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(180deg); }
+}
+
+@-webkit-keyframes rotateBack {
+  0% { transform: rotate(180deg); }
+  100% { transform: rotate(0deg); }
+}

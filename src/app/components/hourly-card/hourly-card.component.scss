@@ -1,0 +1,121 @@
+:host {
+    position: absolute;
+    z-index: -2;
+    top: 170px;
+    height: 100%;
+    width: 100%;
+    left: 0px;
+}
+
+ion-content {
+    ion-card.main-card {
+        background: var(--ion-color-light);
+        padding-top: 5px;
+        overflow: auto;
+        ion-card-header {
+            ion-card-title {
+            }
+        }
+        ion-card-content.main-card {
+            padding: 0 1px 0 3px;
+            ion-card-subtitle {
+            }
+
+            h1 {
+                font-size: 75px;
+                margin: 0;
+                position: relative;
+                top: -10px;
+                text-align: center;
+            }
+
+            h3 {
+                font-size: 28px;
+                margin: 0;
+                position: relative;
+                top: -10px;
+                text-align: center;
+            }
+
+            h5 {
+                display: flex;
+            }
+
+            ion-list {
+                background: transparent;
+                padding-bottom: 170px;
+                padding-top: 0px;
+                width: 100%;
+                ion-item {
+                    --padding-start: 0;
+                    --inner-padding-end: 0;
+                    --color: var(--ion-color-step-550);
+                    --background: transparent;
+                    --inner-border-width: 0;
+                    &.hide {
+                        opacity: 0;
+                    }
+                    &.slide-in {
+                        -webkit-animation-name: slideIn;
+                        -webkit-animation-duration: 250ms;
+                        -webkit-animation-timing-function: ease-in;
+                    }
+                    ion-card.list-item {
+                        --background: white;
+                        width: calc(100% - 2px);
+                        padding: 0 4px;
+                        margin: 0;
+                        ion-card-content.list-item {
+                            width: 100%;
+                            padding: 0;
+                            .hourly-box {
+                                display: flex;
+                                .pre-box {
+                                    flex-direction: column;
+                                }
+                                .post-box {
+                                    text-align: right;
+                                    flex-direction: column;
+                                    position: absolute;
+                                    right: 0px;
+                                }
+                                p {
+                                    margin-bottom: 0;
+                                    &.hour {
+                                        font-weight: 600;
+                                    }
+                                    &.summary {
+                                    }
+                                    &.temp {
+                                        position: absolute;
+                                        left: 140px;
+                                        font-size: 30px;
+                                    }
+                                    &.precip {
+                                    }
+                                    &.rain {
+                                    }
+                                }
+                                .weather-icon {
+                                    position: absolute;
+                                    right: 50px;
+                                }
+                            }
+                        }
+                    }
+                }
+                ion-icon {
+                    font-size: 25px;
+                    position: absolute;
+                    right: 0px;
+                    bottom: 0px;
+                }
+            }  
+        }
+    }
+}
+
+@-webkit-keyframes slideIn {
+  0% { transform: translateX(-150px); }
+  100% { transform: translateX(0px); }
+}

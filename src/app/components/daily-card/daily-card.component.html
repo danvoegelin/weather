@@ -1,0 +1,43 @@
+<ion-content>
+    <ion-card class="main-card">
+      <ion-card-header>
+        <ion-card-title>
+          {{ weatherDaily.summary }}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let day of weatherDaily.data" (click)="expandItem(day)">
+            <div class="item-container">
+              <div class="header">
+                <div class="pre-box">
+                  <span class="date">{{ getFormattedDate(day.time) }}</span>
+                </div>
+                <img [src]="getWeatherIcon(day)" class="weather-icon" />
+                <!-- <div class="summary">{{ day.summary }}</div> -->
+                <div class="post-box">
+                  <span class="high">{{ round(day.apparentTemperatureHigh) }}</span>
+                  <span class="low">{{ round(day.apparentTemperatureLow) }}</span>
+                </div>
+                <div class="expand-arrow">
+                  <ion-icon md="ios-arrow-down" [ngClass]="day.expanded ? 'rotated' : 'default'"></ion-icon>
+                </div>
+              </div>
+              <expandable class="expandable" expandHeight="75px" [expanded]="day.expanded">
+                <div class="pre-box">
+                  <p class="sunrise"><span>Sunrise: </span><span class="value">{{ getFormattedTime(day.sunriseTime) }}</span></p>
+                  <p class="sunset"><span>Sunset: </span><span class="value">{{ getFormattedTime(day.sunsetTime) }}</span></p>
+                  <p class="cloud"><span>Cloud Cover: </span><span class="value">{{ day.cloudCover | percent }}</span></p>
+                </div>
+                <div class="post-box">
+                  <p class="rain"><span>Precip: </span><span class="value">{{ day.precipProbability | percent }}</span></p>
+                  <p class="wind-speed"><span>Wind Speed: </span><span class="value">{{ round(day.windSpeed) }}</span></p>
+                  <p class="wind-gust"><span>Wind Gust: </span><span class="value">{{ round(day.windGust) }}</span></p>
+                </div>
+              </expandable>
+            </div>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+</ion-content>

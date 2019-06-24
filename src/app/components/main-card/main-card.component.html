@@ -1,0 +1,24 @@
+<ion-content (click)="toggleMinuteCard2()">
+    <ion-card class="main-card">
+      <ion-card-header>
+        <ion-card-title>
+          Current Weather: {{ lastRefreshTime }}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="main">
+          <div class="temp"><p>{{ round(weatherCurrent.temperature) }}</p></div>
+          <div class="desc"><p>{{ weatherCurrent.summary }}</p></div>
+        </div>        
+        <div class="info">
+          <h5><p>Wind Speed:</p><p class="info-value">{{ round(weatherCurrent.windSpeed) }} mph</p></h5>
+          <h5><p>Cloud Cover:</p><p class="info-value">{{ weatherCurrent.cloudCover | percent }}</p></h5>
+          <h5><p>UV Index:</p><p class="info-value" [ngClass]="uvIndexClass">{{ uvIndexValue }}</p></h5>
+          <h5><p>Humidity:</p><p class="info-value">{{ weatherCurrent.humidity | percent }}</p></h5>
+        </div>
+        <div class="main-image">
+          <img [src]="getWeatherIcon(weatherCurrent)" />
+        </div>
+      </ion-card-content>
+    </ion-card>
+</ion-content>
