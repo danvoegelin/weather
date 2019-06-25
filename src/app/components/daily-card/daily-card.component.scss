@@ -7,7 +7,7 @@ ion-content {
         overflow: auto;
         ion-card-header {
             background: var(--ion-color-light);
-            box-shadow: 0 -7px 9px -9px rgba(0, 0, 0, .5) inset;
+            box-shadow: 0 -7px 9px -9px rgba(0, 0, 0, .5) inset, 0 8px 10px -10px rgba(0, 0, 0, 0.4) inset;
             ion-card-title {
             }
         }

@@ -1,10 +1,10 @@
 <ion-content>
     <ion-card class="main-card">
-      <ion-card-header>
+<!--       <ion-card-header>
         <ion-card-title>
           {{ weatherHourly.summary }}
         </ion-card-title>
-      </ion-card-header>
+      </ion-card-header> -->
       <ion-card-content class="main-card">
         <ion-list>
           <ion-item *ngFor="let hour of weatherHourly.data.slice(0, 24)" (click)="expandItem(hour)" class="hourly hide">
