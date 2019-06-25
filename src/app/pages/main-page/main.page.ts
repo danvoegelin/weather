@@ -36,7 +36,7 @@ export class MainPage implements OnInit {
     this.minutelyCardVisible = false;
     this.apiService.getWeather(this.lat, this.long).subscribe((data) => {
       this.dataService.setData(data);
-      console.log(data.currently.summary, data.currently.temperature, this.minutelyCardVisible);
+      console.log(data.currently.summary, data.currently.temperature);
       this.loading = false;
       this.init = true;
     });

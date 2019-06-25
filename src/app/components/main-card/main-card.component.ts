@@ -80,7 +80,7 @@ export class MainCardComponent implements OnInit, OnChanges {
     return this.weatherService.getWeatherIcon(weatherData);
   }
 
-  toggleMinuteCard2() {
+  toggleMinuteCard() {
     this.minutelyCard.emit();
   }
 }

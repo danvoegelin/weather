@@ -14,7 +14,7 @@ export class WeatherService implements OnInit {
   ngOnInit() {
       // this.innerWidth = window.innerWidth;
       // this.innerHeight = window.innerHeight;
-      // console.log('haha', window.innerWidth)
+      // console.log('innerWidth', window.innerWidth)
   }
 
   getWeatherIcon(weatherData: any): string {

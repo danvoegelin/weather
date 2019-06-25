@@ -71,7 +71,7 @@ export class MinutelyCardComponent implements OnInit, OnChanges {
 
   swipeEvent(event) {
     // let card = document.querySelector('minutely-card');
-    console.log('panning', event.additionalEvent, event.deltaY, event.direction)
+    // console.log('panning', event.additionalEvent, event.deltaY, event.direction)
     // card.style.top = `${event.deltaY - 30}px`;
   }
 }

@@ -10,7 +10,6 @@ export class CustomGestureConfig extends HammerGestureConfig {
   buildHammer(element: HTMLElement) {
     const mc = new Hammer(element);
 
-    console.log(mc)
     for (const eventName in this.overrides) {
       if (eventName) {
         mc.get(eventName).set(this.overrides[eventName]);

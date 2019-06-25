@@ -29,7 +29,6 @@ export class HourlyCardComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log('hourly on changes')
     this.loading = true;
     this.weatherHourly = this.dataService.getHourlyWeather();
     setTimeout(this.staggerDropIn(), 500);
