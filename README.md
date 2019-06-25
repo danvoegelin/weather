@@ -6,6 +6,6 @@ cd into repo directory
 
 ```npm install```
 
-manually add darksky api key in src/app/services/api-service/spi-service.ts
+manually add darksky api key in src/app/services/api-service/api-service.ts
 
 ```npm run start```
