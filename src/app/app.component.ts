@@ -23,7 +23,7 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.show();
-      setTimeout(this.hideSplash().bind(this), 1000);
+      setTimeout(this.hideSplash().bind(this), 1500);
     });
   }
 

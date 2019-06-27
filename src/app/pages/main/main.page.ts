@@ -59,7 +59,6 @@ export class MainPage implements OnInit {
   }
 
   toggleMinuteCard(setToValue: boolean = !this.minutelyCardVisible) {
-    console.log('toggleMinuteCard', setToValue)
     this.minutelyCardVisible = setToValue;
   }
 }

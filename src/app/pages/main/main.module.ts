@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MainPage } from '@pages/main-page/main.page';
+import { MainPage } from '@pages/main/main.page';
 import { MainCardComponentModule } from '@components/main-card/main-card.module';
 import { MinutelyCardComponentModule } from '@components/minutely-card/minutely-card.module';
 import { HourlyCardComponentModule } from '@components/hourly-card/hourly-card.module';

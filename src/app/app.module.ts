@@ -15,7 +15,8 @@ import { DataService } from '@services/data-service/data.service';
 import { WeatherService } from '@services/weather-service/weather.service';
 import { CustomGestureConfig } from '@services/hammer-config'
 
-import { MainPageModule } from '@pages/main-page/main.module';
+import { MainPageModule } from '@pages/main/main.module';
+import { MenuPageModule } from '@pages/menu/menu.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { MainPageModule } from '@pages/main-page/main.module';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    MainPageModule
+    MainPageModule,
+    MenuPageModule,
   ],
   providers: [
     StatusBar,

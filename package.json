@@ -3,14 +3,15 @@
   "version": "0.0.1",
   "author": "Dan Voegelin",
   "homepage": "https://www.danvoegelin.com/",
+  "description": "An awesome weather app developed by Dan Voegelin in Ionic 4",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod && ionic cordova build android --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "clean": "ionic cordova platform rm android",
-    "platform": "ionic cordova platform add android"
+    "platform": "ionic cordova platform rm android && ionic cordova platform add android",
+    "sideload": "adb uninstall com.dan.weather && adb install A:/weather/platforms/android/app/build/outputs/apk/debug/app-debug.apk"
   },
   "private": true,
   "dependencies": {
@@ -69,7 +70,6 @@
     "tslint": "~5.17.0",
     "typescript": "~3.1.6"
   },
-  "description": "An Ionic project",
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},

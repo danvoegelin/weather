@@ -1,10 +1,14 @@
 <ion-header>
-    <ion-toolbar color="dark" (click)="refreshData()">
-        <ion-title>
-            <ion-icon class="menu" name="menu"></ion-icon>
-                Boston
-            <ion-icon class="refresh" [ngClass]="refresherClass()" name="refresh"></ion-icon>
-        </ion-title>
+    <ion-toolbar color="dark">
+        <ion-buttons slot="start" class="menu" >
+            <ion-menu-button color="medium" autoHide="false">
+                <ion-icon class="menu" name="menu"></ion-icon>
+            </ion-menu-button>
+        </ion-buttons>
+        <ion-title>Boston</ion-title>
+        <ion-buttons slot="end" class="refresh" [ngClass]="refresherClass()">
+            <ion-icon name="refresh" (click)="refreshData()"></ion-icon>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 <ion-content *ngIf=!loading [ngClass]="loading ? '' : 'fade-in'">
