@@ -1,6 +1,6 @@
-<ion-menu contentId="main" side="start">
+<ion-menu contentId="main" side="start" (ionClose)="clearResults()">
     <ion-header>
-        <ion-menu-toggle autoHide="false">
+        <ion-menu-toggle autoHide="false" (click)="clearResults()">
             <ion-toolbar color="dark">
                 <ion-title>Menu</ion-title>
             </ion-toolbar>
@@ -8,11 +8,17 @@
     </ion-header>
     <ion-content>
         <ion-list>
-            <ion-item>Menu Item 1</ion-item>
-            <ion-item>Menu Item 2</ion-item>
-            <ion-item>Menu Item 3</ion-item>
-            <ion-item>Menu Item 4</ion-item>
-            <ion-menu-toggle autoHide="false"><ion-item>Close Menu</ion-item></ion-menu-toggle>
+            <ion-item>
+                <ion-input type="text"
+                           name="location"
+                           [(ngModel)]="location"
+                           placeholder="Location"
+                           (keyup)="getPlaces($event)"></ion-input>
+                <ion-icon (click)="clearResults()" name="close"></ion-icon>
+            </ion-item>
+            <ion-menu-toggle autoHide="false">
+                <ion-item *ngFor="let place of places" (click)="selectPlace(place)">{{ place.description }}</ion-item>
+            </ion-menu-toggle>
         </ion-list>
     </ion-content>
 </ion-menu>

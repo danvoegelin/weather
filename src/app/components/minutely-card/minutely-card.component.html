@@ -1,4 +1,4 @@
-<ion-content (click)="toggleMinutelyCard()">
+<ion-content (click)="toggleMinutelyCard()" *ngIf=!loading>
     <ion-card class="main-card" (swipe)="swipeEvent($event)">
       <ion-card-header>
         <ion-card-title>

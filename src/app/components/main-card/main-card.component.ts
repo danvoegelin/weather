@@ -18,6 +18,7 @@ export class MainCardComponent implements OnInit, OnChanges {
   public lastRefreshTime: string;
   public uvIndexValue: string;
   public uvIndexClass: string;
+  public loading: boolean = true;
 
   constructor(
     private weatherService: WeatherService,
@@ -25,12 +26,16 @@ export class MainCardComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
-    this.ngOnChanges();
+    this.dataService.reload.subscribe(() => {
+      this.loading = true;
+      this.ngOnChanges();
+    })
   }
 
   ngOnChanges() {
     this.weatherCurrent = this.dataService.getCurrentWeather();
     this.updateData();
+    this.loading = false;
   }
 
   updateData() {

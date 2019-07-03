@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content *ngIf="!loading">
     <ion-card class="main-card">
 <!--       <ion-card-header>
         <ion-card-title>
@@ -7,7 +7,7 @@
       </ion-card-header> -->
       <ion-card-content class="main-card">
         <ion-list>
-          <ion-item *ngFor="let hour of weatherHourly.data.slice(0, 24)" (click)="expandItem(hour)" class="hourly hide">
+          <ion-item *ngFor="let hour of weatherHourly.data.slice(0, 24)" (click)="expandItem(hour)" class="hourly">
             <ion-card class="list-item">
               <ion-card-content class="list-item">
                 <div class="list-item">

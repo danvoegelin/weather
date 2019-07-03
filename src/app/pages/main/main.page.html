@@ -5,13 +5,13 @@
                 <ion-icon class="menu" name="menu"></ion-icon>
             </ion-menu-button>
         </ion-buttons>
-        <ion-title>Boston</ion-title>
+        <ion-title>{{ dataService.location }}</ion-title>
         <ion-buttons slot="end" class="refresh" [ngClass]="refresherClass()">
             <ion-icon name="refresh" (click)="refreshData()"></ion-icon>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-<ion-content *ngIf=!loading [ngClass]="loading ? '' : 'fade-in'">
+<ion-content *ngIf=!dataService.loading [ngClass]="loading ? '' : 'fade-in'">
 <!--     <ion-refresher slot="fixed"
                    (ionRefresh)="refreshData()"
                    pullingIcon="refresh"

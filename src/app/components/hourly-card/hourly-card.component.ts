@@ -13,9 +13,9 @@ import { DataService } from '@services/data-service/data.service';
 export class HourlyCardComponent implements OnInit, OnChanges {
 
   @Input() minutelyCard: boolean;
-  public loading: boolean;
   public weatherHourly: WeatherHourly;
   public staggerFunction = this.staggerDropIn();
+  public loading: boolean = true;
 
   constructor(
     private weatherService: WeatherService,
@@ -23,15 +23,16 @@ export class HourlyCardComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
-    this.ngOnChanges();
-    // console.log('window width', this.weatherService.innerWidth)
-    // console.log('window height', this.weatherService.innerHeight)
+    this.dataService.reload.subscribe(() => {
+      this.loading = true;
+      this.ngOnChanges();
+    })
   }
 
   ngOnChanges() {
-    this.loading = true;
     this.weatherHourly = this.dataService.getHourlyWeather();
-    setTimeout(this.staggerDropIn(), 500);
+    this.loading = false;
+    // setTimeout(this.staggerDropIn(), 1000); // animation too choppy on older phones
   }
 
   getFormattedTime(date: number) {

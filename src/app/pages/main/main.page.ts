@@ -1,6 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, OnChanges, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { ApiService } from '@services/api-service/api.service';
 import { DataService } from '@services/data-service/data.service';
 import { Weather, WeatherCurrent, WeatherMinutely, WeatherHourly, WeatherDaily } from '@interfaces/weather.interface';
 
@@ -12,46 +11,47 @@ import { Weather, WeatherCurrent, WeatherMinutely, WeatherHourly, WeatherDaily }
 export class MainPage implements OnInit {
 
   constructor(
-    private apiService: ApiService,
     private dataService: DataService,
   ) {}
 
   public slideOpts = {
     initialSlide: 0,
-    speed: 250
+    speed: 50,
+    watchOverflow: true,
+    resistanceRatio: 0
   };
   private init: boolean = false;
-  public disableRefresh: boolean = false;
   public loading: boolean = true;
+  public disableRefresh: boolean = false;
   public minutelyCardVisible: boolean = false;
-  public lat: string = '42.358223';
-  public long: string = '-71.071096';
 
   ngOnInit() {
-    this.getAndSetWeather();
+    this.init = true;
+    this.loading = true;
+    this.dataService.reload.subscribe(() => {
+      this.ngOnChanges();
+    })
   }
 
-  private getAndSetWeather() {
-    this.loading = true;
+  ngOnChanges() {
     this.minutelyCardVisible = false;
-    this.apiService.getWeather(this.lat, this.long).subscribe((data) => {
-      this.dataService.setData(data);
-      console.log(data.currently.summary, data.currently.temperature);
-      this.loading = false;
-      this.init = true;
-    });
+    this.loading = false;
   }
 
   refreshData() {
-    this.getAndSetWeather();
+    this.minutelyCardVisible = false;
+    this.loading = true;
+    this.dataService.getWeather().then(() => {
+      this.loading = false;
+    });
   }
 
   refresherClass() {
-    return this.loading && this.init ? 'refreshing' : '';
+    return this.dataService.loading && this.init ? 'refreshing' : '';
   }
 
   loadAnimation() {
-    return this.loading ? '' : 'fade-in';
+    return this.dataService.loading ? '' : 'fade-in';
   }
 
   round(num: number) {

@@ -19,6 +19,7 @@ export class MinutelyCardComponent implements OnInit, OnChanges {
   public weatherHourly: WeatherHourly;
   public totalPrecip: number = 0;
   public rainStarting: number = 0;
+  public loading: boolean = true;
 
   constructor(
     private weatherService: WeatherService,
@@ -26,7 +27,10 @@ export class MinutelyCardComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
-    this.ngOnChanges();
+    this.dataService.reload.subscribe(() => {
+      this.loading = true;
+      this.ngOnChanges();
+    })
   }
 
   ngOnChanges() {
@@ -34,6 +38,7 @@ export class MinutelyCardComponent implements OnInit, OnChanges {
     this.weatherMinutely = this.dataService.getMinutelyWeather();
     this.weatherCurrent = this.dataService.getCurrentWeather();
     this.getTotalPrecip();
+    this.loading = false;
   }
 
   getFormattedDate(date: number) {

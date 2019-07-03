@@ -11,6 +11,10 @@ import { DataService } from '@services/data-service/data.service';
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
+
+  public init: boolean = false;
+  public loading: boolean = false;
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -22,8 +26,11 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.show();
-      setTimeout(this.hideSplash().bind(this), 1500);
+      this.dataService.getLocationFromStorage().then(() => {
+        this.getAndSetWeather();
+        this.statusBar.show();
+        setTimeout(this.hideSplash().bind(this), 1500);
+      });
     });
   }
 
@@ -31,5 +38,18 @@ export class AppComponent {
     return function() {
       this.splashScreen.hide();
     }
+  }
+
+  refreshWeather() {
+    this.loading = true;
+    this.dataService.getWeather().then(() => {
+      this.loading = false;
+    });
+  }
+
+  private getAndSetWeather() {
+    this.dataService.getWeather().then(() => {
+      this.init = true;
+    });
   }
 }

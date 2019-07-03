@@ -13,6 +13,7 @@ import { DataService } from '@services/data-service/data.service';
 export class DailyCardComponent implements OnInit, OnChanges {
 
   public weatherDaily: WeatherDaily;
+  public loading: boolean = true;
 
   constructor(
     private weatherService: WeatherService,
@@ -20,11 +21,15 @@ export class DailyCardComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
-    this.ngOnChanges();
+    this.dataService.reload.subscribe(() => {
+      this.loading = true;
+      this.ngOnChanges();
+    })
   }
 
   ngOnChanges() {
     this.weatherDaily = this.dataService.getDailyWeather();
+    this.loading = false;
   }
 
   getFormattedDate(date: number) {
