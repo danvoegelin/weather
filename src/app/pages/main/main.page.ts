@@ -11,7 +11,7 @@ import { Weather, WeatherCurrent, WeatherMinutely, WeatherHourly, WeatherDaily }
 export class MainPage implements OnInit {
 
   constructor(
-    private dataService: DataService,
+    public dataService: DataService,
   ) {}
 
   public slideOpts = {
