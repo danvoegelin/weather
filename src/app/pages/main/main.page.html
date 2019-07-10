@@ -24,7 +24,7 @@
                        (minutelyCard)="toggleMinuteCard()"
                        [ngClass]="minutelyCardVisible ? 'expanded' : 'collapsed'">
             </main-card>
-            <minutely-card [ngClass]="minutelyCardVisible ? 'show' : 'hide'"
+            <minutely-card [ngClass]="{'show': minutelyCardVisible, 'hide': !minutelyCardVisible, 'small': noMinutelyData}"
                            (minutelyCard)="toggleMinuteCard($event)">
             </minutely-card>
             <hourly-card></hourly-card>

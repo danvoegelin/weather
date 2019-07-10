@@ -8,3 +8,14 @@ export interface Place {
     terms: any[];
     types: string[];
 }
+
+export interface SavedLocations {
+    locations: Location[];
+}
+
+export interface Location {
+    location: string;
+    lat: number;
+    long: number;
+    place_id: string;
+}

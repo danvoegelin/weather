@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ApplicationRef } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -20,17 +20,20 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private dataService: DataService,
+    private ref: ApplicationRef,
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.dataService.getLocationFromStorage().then(() => {
-        this.getAndSetWeather();
-        this.statusBar.show();
-        setTimeout(this.hideSplash().bind(this), 1500);
+      this.dataService.getLocationFromStorage().then((locationRetrieved) => {
+        if (locationRetrieved) {
+          this.getAndSetWeather();
+        }
       });
+      this.statusBar.show();
+      setTimeout(this.hideSplash().bind(this), 500);
     });
   }
 
@@ -50,6 +53,7 @@ export class AppComponent {
   private getAndSetWeather() {
     this.dataService.getWeather().then(() => {
       this.init = true;
+      this.ref.tick();
     });
   }
 }

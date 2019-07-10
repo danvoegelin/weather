@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, OnChanges, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, OnChanges, EventEmitter, ElementRef, Renderer2 } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { DataService } from '@services/data-service/data.service';
 import { Weather, WeatherCurrent, WeatherMinutely, WeatherHourly, WeatherDaily } from '@interfaces/weather.interface';
@@ -11,12 +11,14 @@ import { Weather, WeatherCurrent, WeatherMinutely, WeatherHourly, WeatherDaily }
 export class MainPage implements OnInit {
 
   constructor(
+    private el: ElementRef,
     public dataService: DataService,
+    public renderer: Renderer2,
   ) {}
 
   public slideOpts = {
     initialSlide: 0,
-    speed: 50,
+    speed: 250,
     watchOverflow: true,
     resistanceRatio: 0
   };
@@ -24,6 +26,7 @@ export class MainPage implements OnInit {
   public loading: boolean = true;
   public disableRefresh: boolean = false;
   public minutelyCardVisible: boolean = false;
+  public noMinutelyData: boolean = false;
 
   ngOnInit() {
     this.init = true;
@@ -36,6 +39,8 @@ export class MainPage implements OnInit {
   ngOnChanges() {
     this.minutelyCardVisible = false;
     this.loading = false;
+    this.renderer.removeClass(this.el.nativeElement, 'ion-page-invisible');
+    this.noMinutelyData = !this.dataService.getMinutelyWeather();
   }
 
   refreshData() {

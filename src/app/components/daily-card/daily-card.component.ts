@@ -60,7 +60,6 @@ export class DailyCardComponent implements OnInit, OnChanges {
         } else {
           dayItem.expanded = false;
         }
-        return dayItem;
       });
     }
   }

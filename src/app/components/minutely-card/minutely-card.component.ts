@@ -20,6 +20,7 @@ export class MinutelyCardComponent implements OnInit, OnChanges {
   public totalPrecip: number = 0;
   public rainStarting: number = 0;
   public loading: boolean = true;
+  public minutelyData: boolean = false;
 
   constructor(
     private weatherService: WeatherService,
@@ -35,8 +36,9 @@ export class MinutelyCardComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.weatherHourly = this.dataService.getHourlyWeather();
-    this.weatherMinutely = this.dataService.getMinutelyWeather();
     this.weatherCurrent = this.dataService.getCurrentWeather();
+    this.weatherMinutely = this.dataService.getMinutelyWeather();
+    this.minutelyData = !!this.weatherMinutely;
     this.getTotalPrecip();
     this.loading = false;
   }
@@ -72,11 +74,5 @@ export class MinutelyCardComponent implements OnInit, OnChanges {
 
   toggleMinutelyCard() {
     this.minutelyCard.emit();
-  }
-
-  swipeEvent(event) {
-    // let card = document.querySelector('minutely-card');
-    // console.log('panning', event.additionalEvent, event.deltaY, event.direction)
-    // card.style.top = `${event.deltaY - 30}px`;
   }
 }

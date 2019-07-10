@@ -36,6 +36,7 @@ export class MainCardComponent implements OnInit, OnChanges {
     this.weatherCurrent = this.dataService.getCurrentWeather();
     this.updateData();
     this.loading = false;
+    this.scaleFontSize('div.desc p');
   }
 
   updateData() {
@@ -79,6 +80,16 @@ export class MainCardComponent implements OnInit, OnChanges {
             this.uvIndexClass = 'uv-none';
             break;
     }
+  }
+
+  scaleFontSize(element) {
+    setTimeout(function(){
+      var container = document.querySelectorAll(element)[0];
+      container.style.fontSize = '28px';
+      if (container.textContent.length > 16) {
+          container.style.fontSize = '20px';
+      }
+    }, 150);
   }
 
   getWeatherIcon(weatherData: any) {

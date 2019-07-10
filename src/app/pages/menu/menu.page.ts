@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '@services/api-service/api.service';
 import { DataService } from '@services/data-service/data.service';
-import { Place } from '@interfaces/places.interface';
+import { Place, Location } from '@interfaces/places.interface';
 
 @Component({
   selector: 'menu',
@@ -11,7 +11,10 @@ import { Place } from '@interfaces/places.interface';
 export class MenuPage implements OnInit {
 
   public places: Place[];
+  public savedLocations: any;
+  public currentLocation: any;
   public location;
+  public input: string;
 
   constructor(
     private apiService: ApiService,
@@ -19,9 +22,16 @@ export class MenuPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.dataService.getLocationFromStorage().then((current) => {
+      this.currentLocation = current;
+      this.dataService.getSavedLocationsFromStorage().then((savedLocations) => {
+        this.savedLocations = savedLocations;
+      });
+    });
   }
 
   getPlaces(event) {
+    this.input = event.target;
     this.apiService.getPlaces(event.target.value).subscribe((data) => {
       this.places = data.predictions;
     });
@@ -29,15 +39,42 @@ export class MenuPage implements OnInit {
 
   selectPlace(place: Place) {
     this.clearResults();
-    this.dataService.setLocation(place).then(() => {
+    this.dataService.setLocation(place).then((details) => {
         this.dataService.getWeather(); // emit refresh event instead
+        this.currentLocation = details;
     });
   }
 
   clearResults() {
+    this.input = null;
     this.places = [];
     this.location = '';
     this.apiService.endPlacesSession();
+  }
+
+  saveCurrentLocation() {
+    if (this.currentLocation) {
+      this.dataService.saveLocationToStorage().then(() => {
+        this.dataService.getSavedLocationsFromStorage().then((savedLocations) => {
+          this.savedLocations = savedLocations;
+        });
+      });
+    }
+  }
+
+  selectSavedLocation(location: Location) {
+    this.dataService.setSavedLocation(location).then((details) => {
+      this.dataService.getWeather(); // emit refresh event instead
+      this.currentLocation = details;
+    });
+  }
+
+  removeSavedLocation(location: Location) {
+    this.dataService.removeSavedLocationFromStorage(location).then(() => {
+      this.dataService.getSavedLocationsFromStorage().then((savedLocations) => {
+        this.savedLocations = savedLocations;
+      });
+    });
   }
 
 }

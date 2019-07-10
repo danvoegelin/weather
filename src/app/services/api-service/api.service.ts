@@ -22,9 +22,9 @@ export class ApiService {
   private googlePlacesDetailsUrl: string = 'https://maps.googleapis.com/maps/api/place/details/json?';
   public corsProxy: string = 'https://cors-anywhere.herokuapp.com/';
 
-  public getWeather(lat: string, long: string): Observable<Weather> {
+  public getWeather(lat: number, long: number): Observable<Weather> {
     console.log('getting weather..')
-    return this.http.get<Weather>(this.getForecastUrl(lat, long));
+    return this.http.get<Weather>(this.getForecastUrl(lat.toString(), long.toString()));
   }
 
   private getForecastUrl(lat: string, long: string) {

@@ -36,7 +36,7 @@ ion-content {
                             }
                             .pre-box {
                                 width: 90px;
-                                margin: 0 25px 0 10px;
+                                margin: 5px 25px 0 5px;
                                 .date {
                                     font-weight: 600;
                                     font-size: 16px;
@@ -48,25 +48,28 @@ ion-content {
                                 font-size: 14px;
                             }
                             .post-box {
-                                padding-left: 30px;
+                                position: absolute;
+                                right: 15px;
                                 .high {
                                     font-size: 40px;
                                 }
                                 .low {
                                     padding-left: 15px;
                                     font-size: 20px;
+                                    display: inline-block;
+                                    width: 50px;
                                 }
-                            }
-                            .expand-arrow {
-                                padding: 24px 0 0 25px;
-                                ion-icon {
-                                    &.rotated {
-                                        -webkit-animation: rotate 300ms linear;
-                                        transform: rotate(180deg);
-                                    }
-                                    &.default {
-                                        -webkit-animation: rotateBack 300ms linear;
-                                        transform: rotate(0deg);
+                                .expand-arrow {
+                                    padding: 24px 0 0 10px;
+                                    ion-icon {
+                                        &.rotated {
+                                            -webkit-animation: rotate 300ms linear;
+                                            transform: rotate(180deg);
+                                        }
+                                        &.default {
+                                            -webkit-animation: rotateBack 300ms linear;
+                                            transform: rotate(0deg);
+                                        }
                                     }
                                 }
                             }

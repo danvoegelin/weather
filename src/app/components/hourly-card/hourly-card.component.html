@@ -16,11 +16,13 @@
                       <p class="hour">{{ getFormattedTime(hour.time) }}</p>
                       <p class="summary">{{ hour.summary }}</p>
                     </div>
-                    <p class="temp">{{ round(hour.apparentTemperature) }}</p>
-                    <img [src]="getWeatherIcon(hour)" class="weather-icon" />
+                    <span class="temp">{{ round(hour.apparentTemperature) }}</span>
                     <div class="post-box">
-                      <p class="precip">Precip:</p>
-                      <p class="rain">{{ hour.precipProbability | percent }}</p>
+                      <span class="weather-icon"><img [src]="getWeatherIcon(hour)" /></span>
+                      <span>
+                        <p class="precip">Precip:</p>
+                        <p class="rain">{{ hour.precipProbability | percent }}</p>
+                      </span>
                     </div>
                   </div>
                 </div>

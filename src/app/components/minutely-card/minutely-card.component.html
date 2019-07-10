@@ -1,52 +1,52 @@
-<ion-content (click)="toggleMinutelyCard()" *ngIf=!loading>
-    <ion-card class="main-card" (swipe)="swipeEvent($event)">
-      <ion-card-header>
-        <ion-card-title>
-          {{ weatherMinutely.summary }}
-        </ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <div class="more-details">
-          <div class="pre-box">
-            <p class="value">{{ round(weatherCurrent.apparentTemperature) }}</p>
-            <p>Feels like</p>
+<ion-content (click)="toggleMinutelyCard()" *ngIf=!loading [ngClass]="!minutelyData ? 'no-data' : ''">
+  <ion-card class="main-card">
+    <ion-card-header>
+      <ion-card-title *ngIf="minutelyData">
+        {{ weatherMinutely.summary }}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="more-details">
+        <div class="pre-box">
+          <p class="value">{{ round(weatherCurrent.apparentTemperature) }}</p>
+          <p>Feels like</p>
+        </div>
+        <div class="post-box">
+          <p>Wind Direction: <span class="value">{{ getWindBearing(weatherCurrent.windBearing) }}</span></p>
+          <p>Wind Gust: <span class="value">{{ round(weatherCurrent.windGust) }} mph</span></p>
+          <p>Wind Speed: <span class="value">{{ round(weatherCurrent.windSpeed) }} mph</span></p>
+        </div>
+      </div>
+      <div class="chart" *ngIf="minutelyData">
+        <div class="chart-background">
+          <p class="y-label">HEAVY</p>
+          <p class="y-label">MED</p>
+          <p class="y-label bottom">LIGHT</p>
+          <div class="x-labels">
+              <span class="x-label"><p class="tick first"></p>Now</span>
+              <span class="x-label"><p class="tick"></p>15 Min</span>
+              <span class="x-label"><p class="tick"></p>30 Min</span>
+              <span class="x-label"><p class="tick"></p>45 Min</span>
+              <span class="x-label"><p class="tick last"></p>1 Hr</span>
           </div>
-          <div class="post-box">
-            <p>Wind Direction: <span class="value">{{ getWindBearing(weatherCurrent.windBearing) }}</span></p>
-            <p>Wind Gust: <span class="value">{{ round(weatherCurrent.windGust) }} mph</span></p>
-            <p>Wind Speed: <span class="value">{{ round(weatherCurrent.windSpeed) }} mph</span></p>
+          <div *ngIf="totalPrecip > 0" class="precip-total">
+              <!-- <p>Rain starting in {{ rainStarting }} minutes</p> -->
+              <p>Total Precipitation: {{ totalPrecip }} in</p>
           </div>
         </div>
-        <div class="chart">
-          <div class="chart-background">
-            <p class="y-label">HEAVY</p>
-            <p class="y-label">MED</p>
-            <p class="y-label bottom">LIGHT</p>
-            <div class="x-labels">
-                <span class="x-label"><p class="tick first"></p>Now</span>
-                <span class="x-label"><p class="tick"></p>15 Min</span>
-                <span class="x-label"><p class="tick"></p>30 Min</span>
-                <span class="x-label"><p class="tick"></p>45 Min</span>
-                <span class="x-label"><p class="tick last"></p>1 Hr</span>
-            </div>
-            <div *ngIf="totalPrecip > 0" class="precip-total">
-                <!-- <p>Rain starting in {{ rainStarting }} minutes</p> -->
-                <p>Total Precipitation: {{ totalPrecip }} in</p>
-            </div>
-          </div>          
-          <div class="chart-data">
-            <p *ngIf="totalPrecip === 0" class="no-rain">NO PRECIP</p>
-            <span *ngFor="let minute of weatherMinutely.data" class="bar-container">
-                <span class="bar" [ngStyle]="{'height':getHeight(minute)}"></span>
-            </span>
-          </div>
-        </div> 
-      </ion-card-content>
-      <div class="drawer">
-        <div class="main-image">
-          <img [src]="getWeatherIcon(weatherCurrent)" />
-        </div>  
-        <ion-icon md="ios-arrow-down" class="arrow"></ion-icon>
-      </div> 
-    </ion-card>
+        <div class="chart-data">
+          <p *ngIf="totalPrecip === 0" class="no-rain">NO PRECIP</p>
+          <span *ngFor="let minute of weatherMinutely.data" class="bar-container">
+              <span class="bar" [ngStyle]="{'height':getHeight(minute)}"></span>
+          </span>
+        </div>
+      </div>
+    </ion-card-content>
+    <div class="drawer">
+      <div class="main-image">
+        <img [src]="getWeatherIcon(weatherCurrent)" />
+      </div>
+      <ion-icon md="ios-arrow-down" class="arrow"></ion-icon>
+    </div>
+  </ion-card>
 </ion-content>

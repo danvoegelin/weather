@@ -18,9 +18,9 @@
                 <div class="post-box">
                   <span class="high">{{ round(day.apparentTemperatureHigh) }}</span>
                   <span class="low">{{ round(day.apparentTemperatureLow) }}</span>
-                </div>
-                <div class="expand-arrow">
-                  <ion-icon md="ios-arrow-down" [ngClass]="day.expanded ? 'rotated' : 'default'"></ion-icon>
+                  <span class="expand-arrow">
+                    <ion-icon md="ios-arrow-down" [ngClass]="day.expanded ? 'rotated' : 'default'"></ion-icon>
+                  </span>
                 </div>
               </div>
               <expandable class="expandable" expandHeight="75px" [expanded]="day.expanded">

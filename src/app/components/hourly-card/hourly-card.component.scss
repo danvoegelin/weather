@@ -10,14 +10,14 @@
 ion-content {
     ion-card.main-card {
         background: var(--ion-color-light);
-        padding-top: 5px;
+        padding-top: 4px;
         overflow: auto;
         ion-card-header {
             ion-card-title {
             }
         }
         ion-card-content.main-card {
-            padding: 0 1px 0 3px;
+            padding: 0 1px 0 2px;
             ion-card-subtitle {
             }
 
@@ -47,6 +47,7 @@ ion-content {
                 padding-top: 0px;
                 width: 100%;
                 ion-item {
+                    --min-height: 44px;
                     --padding-start: 0;
                     --inner-padding-end: 0;
                     --color: var(--ion-color-step-550);
@@ -62,7 +63,7 @@ ion-content {
                     }
                     ion-card.list-item {
                         --background: white;
-                        width: calc(100% - 2px);
+                        width: calc(100% - 1px);
                         padding: 0 4px;
                         margin: 0;
                         border-radius: 0;
@@ -73,12 +74,30 @@ ion-content {
                                 display: flex;
                                 .pre-box {
                                     flex-direction: column;
+                                    .summary {
+                                        max-width: 180px;
+                                        white-space: nowrap;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                    }
+                                }
+                                .temp {
+                                    font-size: 30px;
+                                    position: absolute;
+                                    left: 180px;
                                 }
                                 .post-box {
-                                    text-align: right;
-                                    flex-direction: column;
+                                    display: flex;
                                     position: absolute;
                                     right: 0px;
+                                    .weather-icon {
+                                        padding: 0 5px;
+                                        img {
+                                            max-height: 42px;
+                                        }
+                                    }
+                                    .precip {
+                                    }
                                 }
                                 p {
                                     margin-bottom: 0;
@@ -87,19 +106,8 @@ ion-content {
                                     }
                                     &.summary {
                                     }
-                                    &.temp {
-                                        position: absolute;
-                                        left: 140px;
-                                        font-size: 30px;
-                                    }
-                                    &.precip {
-                                    }
                                     &.rain {
                                     }
-                                }
-                                .weather-icon {
-                                    position: absolute;
-                                    right: 50px;
                                 }
                             }
                         }

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input, ViewChild,  ElementRef, Renderer2 } from '@angular/core';
+import { Component, AfterViewInit, Input, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'expandable',
