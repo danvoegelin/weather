@@ -145,7 +145,7 @@ export class DataService {
     return !matchingLocations.length
   }
 
-  getSavedLocationsFromStorage() {
+  getSavedLocationsFromStorage(): Promise<Location[]> {
     return new Promise((resolve) => {
       this.storage.get('setting:savedLocations').then((savedLocations) => {
         resolve(savedLocations);
@@ -153,7 +153,20 @@ export class DataService {
     });
   }
 
-  removeSavedLocationFromStorage(location: Location) {
+  saveTheme(theme: string) {
+    this.storage.set('setting:theme', { theme: theme } );
+  }
+
+  getSavedTheme(): Promise<string> {
+    return new Promise((resolve) => {
+      this.storage.get('setting:theme').then((savedTheme) => {
+        let theme = savedTheme ? savedTheme.theme : 'light';
+        resolve(theme);
+      });
+    });
+  }
+
+  removeSavedLocationFromStorage(location: Location): Promise<any> {
     return new Promise((resolve) => {
       this.getSavedLocationsFromStorage().then((savedLocations: Location[]) => {
         let newLocationList = savedLocations.filter((loc) => {

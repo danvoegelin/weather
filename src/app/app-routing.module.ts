@@ -4,12 +4,12 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'menu',
+    redirectTo: 'main',
     pathMatch: 'full'
   },
   {
-    path: 'menu',
-    loadChildren: './pages/menu/menu.module#MenuPageModule'
+    path: 'main',
+    loadChildren: './pages/main/main.module#MainPageModule'
   }
 ];
 @NgModule({

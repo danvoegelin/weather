@@ -5,12 +5,99 @@
 // file can hold Sass mixins, functions, and placeholder classes to be imported 
 // and used throughout the application.
 
+:host {
+  margin: 0;
+}
+.dark {
+  background: var(--dark-card-background-darker);
+  --color: var(--dark-text-color);
+  ion-toolbar {
+    --background: var(--dark-header-background);
+  }
+  ion-card.main-card {
+    color: var(--dark-text-color);
+    ion-card-header {
+      background: var(--dark-card-background);
+      ion-card-title {
+        color: var(--dark-text-color);
+      }
+    }
+    ion-item {
+      --background: var(--dark-card-background-darker);
+    }
+    background: var(--dark-card-background);
+    .drawer {
+      -webkit-box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 1);
+      background: var(--dark-card-background);
+    }
+    .item-container {
+      background: var(--dark-card-background);
+    }
+    &.background {
+      ion-card-header {
+        background: var(--dark-card-background-darker);
+      }
+      background: var(--dark-card-background);
+    }
+  }
+  ion-card.list-item {
+    color: var(--dark-text-color);
+    background: var(--dark-card-background);
+  }
+  ion-item {
+    --color: var(--dark-text-color);
+  }
+  .container {
+    background: var(--dark-card-background-darker);
+    box-shadow: 0 -6px 9px -9px rgba(0, 0, 0, 0.5) inset, 0 8px 10px -10px rgba(0, 0, 0, 0.4) inset;
+  }
+}
+.light {
+  background: var(--light-card-background);
+  --color: var(--light-text-color);
+  ion-toolbar {
+    --background: var(--light-header-background);
+  }
+  ion-card.main-card {
+    color: var(--light-text-color);
+    ion-card-header {
+      background: var(--light-card-background);
+      ion-card-title {
+        color: var(--light-text-color);
+      }
+    }
+    background: var(--light-card-background);
+    .drawer {
+      -webkit-box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 0.3);
+      background: var(--light-card-background);
+    }
+    .item-container {
+      background: var(--light-card-background);
+    }
+    &.background {
+      ion-card-header {
+        background: var(--light-card-background-darker);
+      }
+      background: var(--light-card-background);
+    }
+  }
+  ion-card.list-item {
+    color: var(--light-text-color);
+    background: var(--light-card-background);
+  }
+  ion-item {
+    --color: var(--light-text-color);
+  }
+  .container {
+    background: var(--light-card-background-darker);
+    box-shadow: 0 -6px 9px -9px rgba(0, 0, 0, 0.5) inset, 0 8px 10px -10px rgba(0, 0, 0, 0.4) inset;
+  }
+}
 ion-content {
   background: transparent;
   --background: transparent;
   ion-card.main-card {
     overflow: hidden;
-    background: white;
     display: block;
     margin: 0;
     border-radius: 0;
@@ -28,7 +115,35 @@ ion-content {
     }
   }
 }
+
 ion-menu {
+  --width: 240px;
+  .saved {
+    --padding-start: 0px;
+    .saved-location {
+      height: 100%;
+      width: 85%;
+    }
+    .label {
+      padding-left: 16px;
+      &.saved {
+        margin-top: 15px;
+      }
+    }
+  }
+  .remove {
+    position: absolute;
+    right: 16px;
+  }
+  .theme {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    .toggle {
+      position: absolute;
+      right: 16px;
+    }
+  }
 }
 
 @-webkit-keyframes rotate {

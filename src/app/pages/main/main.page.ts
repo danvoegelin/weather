@@ -16,17 +16,17 @@ export class MainPage implements OnInit {
     public renderer: Renderer2,
   ) {}
 
+  private init: boolean = false;
+  public loading: boolean = true;
+  public disableRefresh: boolean = false;
+  public minutelyCardVisible: boolean = false;
+  public noMinutelyData: boolean = false;
   public slideOpts = {
     initialSlide: 0,
     speed: 250,
     watchOverflow: true,
     resistanceRatio: 0
   };
-  private init: boolean = false;
-  public loading: boolean = true;
-  public disableRefresh: boolean = false;
-  public minutelyCardVisible: boolean = false;
-  public noMinutelyData: boolean = false;
 
   ngOnInit() {
     this.init = true;

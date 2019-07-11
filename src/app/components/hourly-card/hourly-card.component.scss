@@ -9,7 +9,6 @@
 
 ion-content {
     ion-card.main-card {
-        background: var(--ion-color-light);
         padding-top: 4px;
         overflow: auto;
         ion-card-header {
@@ -50,7 +49,6 @@ ion-content {
                     --min-height: 44px;
                     --padding-start: 0;
                     --inner-padding-end: 0;
-                    --color: var(--ion-color-step-550);
                     --background: transparent;
                     --inner-border-width: 0;
                     &.hide {
@@ -62,7 +60,6 @@ ion-content {
                         -webkit-animation-timing-function: ease-in;
                     }
                     ion-card.list-item {
-                        --background: white;
                         width: calc(100% - 1px);
                         padding: 0 4px;
                         margin: 0;

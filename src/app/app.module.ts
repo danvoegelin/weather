@@ -2,9 +2,10 @@ import { NgModule } from '@angular/core';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { IonicStorageModule } from '@ionic/storage';
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy, MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -15,9 +16,7 @@ import { ApiService } from '@services/api-service/api.service';
 import { DataService } from '@services/data-service/data.service';
 import { WeatherService } from '@services/weather-service/weather.service';
 import { CustomGestureConfig } from '@services/hammer-config'
-
 import { MainPageModule } from '@pages/main/main.module';
-import { MenuPageModule } from '@pages/menu/menu.module';
 
 @NgModule({
   declarations: [
@@ -30,10 +29,11 @@ import { MenuPageModule } from '@pages/menu/menu.module';
     IonicStorageModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
     MainPageModule,
-    MenuPageModule,
   ],
   providers: [
+    MenuController,
     StatusBar,
     SplashScreen,
     ApiService,
