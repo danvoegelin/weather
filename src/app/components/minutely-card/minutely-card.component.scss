@@ -39,6 +39,9 @@ ion-content {
         height: calc(100% - 10px);
         ion-card-header {
             ion-card-title {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
         ion-card-content {
@@ -134,7 +137,7 @@ ion-content {
                     .no-rain {
                         color: var(--ion-color-light-shade);
                         font-size: 40px;
-                        line-height: 118px;
+                        line-height: 120px;
                         width: 100%;
                     }
                     width: calc(100% - 26px);

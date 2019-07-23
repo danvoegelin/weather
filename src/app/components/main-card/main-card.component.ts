@@ -46,7 +46,7 @@ export class MainCardComponent implements OnInit, OnChanges {
 
   updateLastRefreshTime() {
     let timestamp = new Date(this.weatherCurrent.time * 1000);
-    this.lastRefreshTime = timestamp.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    this.lastRefreshTime = timestamp.toLocaleTimeString([], {hour: 'numeric', minute:'2-digit'});
   }
 
   round(num: number) {

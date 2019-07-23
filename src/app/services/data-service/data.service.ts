@@ -27,7 +27,7 @@ export class DataService {
   public weatherHourly: WeatherHourly;
   public weatherDaily: WeatherDaily;
 
-  getWeather(): Promise<boolean> {
+  getWeather(): Promise<Weather> {
     this.loading = true;
     return new Promise((resolve) => {
       this.apiService.getWeather(this.lat, this.long).subscribe((data) => {
@@ -36,15 +36,15 @@ export class DataService {
         this.loading = false;
         this.ref.tick();
         this.reload.emit();
-        resolve();
+        resolve(data);
       });
     });
   }
 
   refreshWeather(): Promise<boolean> {
     console.log('refreshing weather');
-    return this.getWeather().then((done) => {
-      return done;
+    return this.getWeather().then(() => {
+      return true;
     })
   }
 

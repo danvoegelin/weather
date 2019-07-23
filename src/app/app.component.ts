@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
+import { Weather } from '@interfaces/weather.interface';
 import { Place, Location } from '@interfaces/places.interface';
 import { ApiService } from '@services/api-service/api.service';
 import { DataService } from '@services/data-service/data.service';
@@ -14,15 +15,38 @@ import { DataService } from '@services/data-service/data.service';
 })
 export class AppComponent {
 
+  public data: Weather;
+  public savedTheme: string;
+  public savedThemeLabel: string;
   public theme: string = 'light';
-  @Input() darkChecked: boolean = this.theme === 'dark';
   public init: boolean = false;
   public loading: boolean = false;
   public places: Place[];
-  public savedLocations: any;
-  public currentLocation: any;
+  public savedLocations: Location[];
+  public currentLocation;
   public location;
   public input: string;
+  public themeMenuOpen: boolean = false;
+  public themeModes: any[] = [
+    {
+      label: 'Dark',
+      mode: 'dark',
+      icon: 'moon',
+      active: this.theme === 'dark',
+    },
+    {
+      label: 'Light',
+      mode: 'light',
+      icon: 'sunny',
+      active: this.theme === 'light',
+    },
+    {
+      label: 'Dynamic',
+      mode: 'dynamic',
+      icon: 'clock',
+      active: this.theme === 'dynamic',
+    },
+  ];
 
   constructor(
     private platform: Platform,
@@ -40,16 +64,16 @@ export class AppComponent {
       this.dataService.getLocationFromStorage().then((locationRetrieved) => {
         this.currentLocation = locationRetrieved;
         if (locationRetrieved) {
-          this.getAndSetWeather();
+          this.getAndSetWeather().then(() => {
+            this.dataService.getSavedTheme().then((savedTheme) => {
+              this.setTheme(savedTheme);
+            });
+          });
         }
       });
       this.dataService.getSavedLocationsFromStorage().then((savedLocations) => {
         this.savedLocations = savedLocations;
       });
-      this.dataService.getSavedTheme().then((savedTheme) => {
-        this.theme = savedTheme;
-        this.themeChecked();
-      })
       this.statusBar.show();
       setTimeout(this.hideSplash().bind(this), 500);
     });
@@ -68,27 +92,47 @@ export class AppComponent {
     });
   }
 
-  private getAndSetWeather() {
-    this.dataService.getWeather().then(() => {
-      this.init = true;
-      this.ref.tick();
+  private getAndSetWeather(): Promise<any> {
+    return new Promise((resolve) => {
+      this.dataService.getWeather().then((data) => {
+        this.data = data;
+        this.init = true;
+        this.ref.tick();
+        resolve();
+      });
     });
   }
 
-  public themeChecked() {
-    this.darkChecked = this.theme === 'dark';
+  public toggleThemeMenu() {
+    this.themeMenuOpen = !this.themeMenuOpen;
   }
 
-  public setTheme(darkWasChecked: boolean) {
-    let newTheme = this.theme === 'dark' ? 'light' : 'dark';
-    if (this.changeTheme(darkWasChecked)) {
-      this.dataService.saveTheme(newTheme);
-      this.theme = newTheme;
+  public setTheme(theme: string): void {
+    this.savedTheme = theme;
+    this.savedThemeLabel = this.getThemeLabel(theme);
+    this.dataService.saveTheme(theme);
+    this.theme = this.getDynamicTheme(theme);
+  }
+
+  getDynamicTheme(theme: string): string {
+    let sunriseTime = this.dataService.getDailyWeather().data[0].sunriseTime;
+    let sunsetTime = this.dataService.getDailyWeather().data[0].sunsetTime;
+    let currentTime = this.dataService.getCurrentWeather().time;
+
+    if (theme === 'dynamic') {
+      theme = sunriseTime < currentTime && currentTime < sunsetTime ? 'light' : 'dark';
     }
+    return theme;
   }
 
-  private changeTheme(darkWasChecked: boolean) {
-    return (!darkWasChecked && this.theme === 'dark') || (darkWasChecked && (this.theme === 'light'))
+  getThemeLabel(theme: string) {
+    let themeLabel: string = theme;
+    this.themeModes.forEach((themeMode) => {
+      if (themeMode.mode === theme) {
+        themeLabel = themeMode.label;
+      }
+    });
+    return themeLabel;
   }
 
   getPlaces(event) {

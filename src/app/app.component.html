@@ -28,6 +28,7 @@
                     <ion-menu-toggle autoHide="false">
                         <ion-item class="saved" (click)="saveCurrentLocation()">
                             <span class="label">Save current location</span>
+                            <ion-icon name="save" slot="end"></ion-icon>
                         </ion-item>
                     </ion-menu-toggle>
                     <ion-item class="saved" *ngFor="let savedLocation of savedLocations">
@@ -38,9 +39,20 @@
                     </ion-item>
                 </div>
             </ion-list>
-            <ion-item class="theme">Dark Mode
-                <ion-toggle class="toggle" color="dark" [(ngModel)]="darkChecked" (ionChange)="setTheme(darkChecked)"></ion-toggle>
-            </ion-item>
+            <div class="theme" (click)="toggleThemeMenu()">
+                <ion-menu-toggle autoHide="false">
+                    <ion-list class="theme-modes" *ngIf="themeMenuOpen">
+                        <ion-item class="theme-item" *ngFor="let theme of themeModes" (click)="setTheme(theme.mode)">
+                            <ion-icon [name]="theme.icon" slot="end"></ion-icon>
+                            <ion-label>{{ theme.label }}</ion-label>
+                        </ion-item>
+                    </ion-list>
+                </ion-menu-toggle>
+                <ion-item class="theme-item">
+                    <ion-label>Theme</ion-label>
+                    <ion-note slot="end">{{ savedThemeLabel }}</ion-note >
+                </ion-item>
+            </div>
         </ion-content>
     </ion-menu>
     <ion-router-outlet main></ion-router-outlet>

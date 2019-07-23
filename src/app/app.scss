@@ -139,6 +139,21 @@ ion-menu {
     position: absolute;
     bottom: 0px;
     width: 100%;
+    border-top: solid 1px lightgrey;
+    .theme-modes {
+      padding: 0px;
+    }
+    .theme-item {
+      --padding-start: 0px;
+      ion-label {
+        padding-left: 16px;
+      }
+      ion-note {
+        font-size: 16px;
+        padding-top: 16px;
+        color: var(--ion-color-medium-rgb);
+      }
+    }
     .toggle {
       position: absolute;
       right: 16px;
