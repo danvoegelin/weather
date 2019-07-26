@@ -6,12 +6,12 @@
             </ion-menu-button>
         </ion-buttons>
         <ion-title>{{ dataService.location }}</ion-title>
-        <ion-buttons slot="end" class="refresh" [ngClass]="refresherClass()">
+        <ion-buttons slot="end" class="refresh" [ngClass]="refresherClass">
             <ion-icon name="refresh" (click)="refreshData()"></ion-icon>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-<ion-content *ngIf=!dataService.loading [ngClass]="loading ? '' : 'fade-in'">
+<ion-content [ngClass]="loading ? '' : 'fade-in'">
 <!--     <ion-refresher slot="fixed"
                    (ionRefresh)="refreshData()"
                    pullingIcon="refresh"
@@ -24,7 +24,7 @@
                        (minutelyCard)="toggleMinuteCard()"
                        [ngClass]="minutelyCardVisible ? 'expanded' : 'collapsed'">
             </main-card>
-            <minutely-card [ngClass]="{'show': minutelyCardVisible, 'hide': !minutelyCardVisible, 'small': noMinutelyData}"
+            <minutely-card [ngClass]="{'show': minutelyCardVisible && !minutelyCardDefault, 'hide': !minutelyCardVisible && !minutelyCardDefault, 'default': minutelyCardDefault, 'small': noMinutelyData}"
                            (minutelyCard)="toggleMinuteCard($event)">
             </minutely-card>
             <hourly-card></hourly-card>

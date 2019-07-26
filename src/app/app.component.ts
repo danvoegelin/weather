@@ -85,10 +85,11 @@ export class AppComponent {
     }
   }
 
-  refreshWeather() {
+  refreshWeather(): Promise<any> {
     this.loading = true;
-    this.dataService.getWeather().then(() => {
+    return this.dataService.refreshWeather().then(() => {
       this.loading = false;
+      return;
     });
   }
 
@@ -108,6 +109,7 @@ export class AppComponent {
   }
 
   public setTheme(theme: string): void {
+    theme = theme || this.theme;
     this.savedTheme = theme;
     this.savedThemeLabel = this.getThemeLabel(theme);
     this.dataService.saveTheme(theme);
@@ -145,8 +147,10 @@ export class AppComponent {
   selectPlace(place: Place) {
     this.clearResults();
     this.dataService.setLocation(place).then((details) => {
-        this.dataService.getWeather(); // emit refresh event instead
-        this.currentLocation = details;
+      this.currentLocation = details;
+      this.refreshWeather().then(() => {
+        this.setTheme(this.savedTheme);
+      });
     });
   }
 
@@ -169,8 +173,10 @@ export class AppComponent {
 
   selectSavedLocation(location: Location) {
     this.dataService.setSavedLocation(location).then((details) => {
-      this.dataService.getWeather(); // emit refresh event instead
       this.currentLocation = details;
+      this.refreshWeather().then(() => {
+        this.setTheme(this.savedTheme);
+      });
     });
   }
 

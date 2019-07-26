@@ -2,6 +2,13 @@
     z-index: -1;
     width: 100%;
     display: block;
+    &.default {
+        top: -123px;
+        position: absolute;
+        &.small {
+            top: 57px;
+        }
+    }
     &.show {
         top: 0;
         position: relative;

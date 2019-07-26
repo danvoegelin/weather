@@ -16,8 +16,8 @@ export class DataService {
   ) { }
 
   @Output() reload: EventEmitter<void> = new EventEmitter<void>();
+  @Output() refreshing: EventEmitter<boolean> = new EventEmitter<boolean>();
   public currentLocation: Location;
-  public loading: boolean;
   public data: Weather;
   public location: string = 'Select A Location';
   public lat: number;
@@ -28,12 +28,10 @@ export class DataService {
   public weatherDaily: WeatherDaily;
 
   getWeather(): Promise<Weather> {
-    this.loading = true;
     return new Promise((resolve) => {
       this.apiService.getWeather(this.lat, this.long).subscribe((data) => {
         this.setData(data);
         console.log(this.location, data.currently.summary, data.currently.temperature);
-        this.loading = false;
         this.ref.tick();
         this.reload.emit();
         resolve(data);
@@ -42,10 +40,11 @@ export class DataService {
   }
 
   refreshWeather(): Promise<boolean> {
-    console.log('refreshing weather');
+    this.refreshing.emit(true);
     return this.getWeather().then(() => {
+      this.refreshing.emit(false);
       return true;
-    })
+    });
   }
 
   setLocation(place: Place) {
