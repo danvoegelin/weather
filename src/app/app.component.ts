@@ -64,15 +64,16 @@ export class AppComponent {
       this.dataService.getLocationFromStorage().then((locationRetrieved) => {
         this.currentLocation = locationRetrieved;
         if (locationRetrieved) {
-          this.getAndSetWeather().then(() => {
-            this.dataService.getSavedTheme().then((savedTheme) => {
-              this.setTheme(savedTheme);
-            });
-          });
+          this.getAndSetWeather();
         }
       });
       this.dataService.getSavedLocationsFromStorage().then((savedLocations) => {
         this.savedLocations = savedLocations;
+      });
+      this.dataService.reload.subscribe(() => {
+        this.dataService.getSavedTheme().then((savedTheme) => {
+          this.setTheme(savedTheme);
+        });
       });
       this.statusBar.show();
       setTimeout(this.hideSplash().bind(this), 500);
@@ -149,7 +150,7 @@ export class AppComponent {
     this.dataService.setLocation(place).then((details) => {
       this.currentLocation = details;
       this.refreshWeather().then(() => {
-        this.setTheme(this.savedTheme);
+        this.saveCurrentLocation();
       });
     });
   }
@@ -174,9 +175,7 @@ export class AppComponent {
   selectSavedLocation(location: Location) {
     this.dataService.setSavedLocation(location).then((details) => {
       this.currentLocation = details;
-      this.refreshWeather().then(() => {
-        this.setTheme(this.savedTheme);
-      });
+      this.refreshWeather();
     });
   }
 

@@ -79,7 +79,7 @@ ion-content {
                 }
             }
             .empty-state {
-                color: var(--ion-color-light-shade);
+                color: var(--dark-text-color);
                 font-size: 60px;
                 line-height: 280px;
             }
@@ -142,7 +142,7 @@ ion-content {
                 }
                 .chart-data {
                     .no-rain {
-                        color: var(--ion-color-light-shade);
+                        color: var(--ion-color-medium-shade);
                         font-size: 40px;
                         line-height: 120px;
                         width: 100%;

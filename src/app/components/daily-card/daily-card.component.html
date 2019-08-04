@@ -16,7 +16,7 @@
                 <img [src]="getWeatherIcon(day)" class="weather-icon" />
                 <!-- <div class="summary">{{ day.summary }}</div> -->
                 <div class="post-box">
-                  <span class="high">{{ round(day.apparentTemperatureHigh) }}</span>
+                  <span class="high temp">{{ round(day.apparentTemperatureHigh) }}</span>
                   <span class="low">{{ round(day.apparentTemperatureLow) }}</span>
                   <span class="expand-arrow">
                     <ion-icon md="ios-arrow-down" [ngClass]="day.expanded ? 'rotated' : 'default'"></ion-icon>

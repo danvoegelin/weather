@@ -47,6 +47,9 @@
   ion-item {
     --color: var(--dark-text-color);
   }
+  .temp {
+    color: var(--dark-temp-color);
+  }
   .container {
     background: var(--dark-card-background-darker);
     box-shadow: 0 -6px 9px -9px rgba(0, 0, 0, 0.5) inset, 0 8px 10px -10px rgba(0, 0, 0, 0.4) inset;
@@ -88,6 +91,9 @@
   ion-item {
     --color: var(--light-text-color);
   }
+  .temp {
+    color: var(--light-temp-color);
+  }
   .container {
     background: var(--light-card-background-darker);
     box-shadow: 0 -6px 9px -9px rgba(0, 0, 0, 0.5) inset, 0 8px 10px -10px rgba(0, 0, 0, 0.4) inset;
@@ -118,6 +124,13 @@ ion-content {
 
 ion-menu {
   --width: 240px;
+  .menu-list {
+    height: 100%;
+  }
+  .saved-places {
+    height: calc(100% - 90px);
+    overflow: auto;
+  }
   .saved {
     --padding-start: 0px;
     .saved-location {

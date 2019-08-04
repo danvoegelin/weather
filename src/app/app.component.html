@@ -8,13 +8,13 @@
             </ion-menu-toggle>
         </ion-header>
         <ion-content>
-            <ion-list>
+            <ion-list class="menu-list">
                 <ion-item>
                     <ion-input class="input"
                                type="text"
                                name="location"
                                [(ngModel)]="location"
-                               placeholder="New Location"
+                               placeholder="Search New Location..."
                                (keyup)="getPlaces($event)">
                     </ion-input>
                     <ion-icon *ngIf="!!input" (click)="clearResults()" name="close"></ion-icon>
@@ -24,13 +24,13 @@
                         <ion-item *ngFor="let place of places" (click)="selectPlace(place)">{{ place.description }}</ion-item>
                     </div>
                 </ion-menu-toggle>
-                <div *ngIf="!places || !places.length">
-                    <ion-menu-toggle autoHide="false">
+                <div class="saved-places" *ngIf="!places || !places.length">
+<!--                     <ion-menu-toggle autoHide="false">
                         <ion-item class="saved" (click)="saveCurrentLocation()">
                             <span class="label">Save current location</span>
                             <ion-icon name="save" slot="end"></ion-icon>
                         </ion-item>
-                    </ion-menu-toggle>
+                    </ion-menu-toggle> -->
                     <ion-item class="saved" *ngFor="let savedLocation of savedLocations">
                         <ion-menu-toggle class="saved-location" autoHide="false">
                             <ion-label class="saved label" (click)="selectSavedLocation(savedLocation)">{{ savedLocation.location }}</ion-label>
@@ -38,21 +38,21 @@
                         <ion-icon class="remove" (click)="removeSavedLocation(savedLocation)" name="close"></ion-icon>
                     </ion-item>
                 </div>
+                <div class="theme" (click)="toggleThemeMenu()">
+                    <ion-menu-toggle autoHide="false">
+                        <ion-list class="theme-modes" *ngIf="themeMenuOpen">
+                            <ion-item class="theme-item" *ngFor="let theme of themeModes" (click)="setTheme(theme.mode)">
+                                <ion-icon [name]="theme.icon" slot="end"></ion-icon>
+                                <ion-label>{{ theme.label }}</ion-label>
+                            </ion-item>
+                        </ion-list>
+                    </ion-menu-toggle>
+                    <ion-item class="theme-item">
+                        <ion-label>Theme</ion-label>
+                        <ion-note slot="end">{{ savedThemeLabel }}</ion-note >
+                    </ion-item>
+                </div>
             </ion-list>
-            <div class="theme" (click)="toggleThemeMenu()">
-                <ion-menu-toggle autoHide="false">
-                    <ion-list class="theme-modes" *ngIf="themeMenuOpen">
-                        <ion-item class="theme-item" *ngFor="let theme of themeModes" (click)="setTheme(theme.mode)">
-                            <ion-icon [name]="theme.icon" slot="end"></ion-icon>
-                            <ion-label>{{ theme.label }}</ion-label>
-                        </ion-item>
-                    </ion-list>
-                </ion-menu-toggle>
-                <ion-item class="theme-item">
-                    <ion-label>Theme</ion-label>
-                    <ion-note slot="end">{{ savedThemeLabel }}</ion-note >
-                </ion-item>
-            </div>
         </ion-content>
     </ion-menu>
     <ion-router-outlet main></ion-router-outlet>
