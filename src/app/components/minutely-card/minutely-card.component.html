@@ -8,13 +8,13 @@
     <ion-card-content>
       <div class="more-details">
         <div class="pre-box">
-          <p class="value temp">{{ round(weatherCurrent.apparentTemperature) }}</p>
+          <p class="value temp">{{ weatherCurrent.apparentTemperature | number: '1.0-0' }}</p>
           <p>Feels like</p>
         </div>
         <div class="post-box">
-          <p>Wind Direction: <span class="value">{{ getWindBearing(weatherCurrent.windBearing) }}</span></p>
-          <p>Wind Gust: <span class="value">{{ round(weatherCurrent.windGust) }} mph</span></p>
-          <p>Wind Speed: <span class="value">{{ round(weatherCurrent.windSpeed) }} mph</span></p>
+          <p>Precip Chance: <span class="value">{{ weatherToday.precipProbability | percent }}</span></p>
+          <p>Total Precip: <span class="value">{{ weatherToday.totalPrecip }} in</span></p>
+          <p>Wind Gust: <span class="value">{{ weatherCurrent.windGust | number: '1.0-0' }} mph</span></p>
         </div>
       </div>
       <div class="chart" *ngIf="minutelyData">
@@ -30,21 +30,21 @@
               <span class="x-label"><p class="tick last"></p>1 Hr</span>
           </div>
           <div *ngIf="totalPrecip > 0" class="precip-total">
-              <!-- <p>Rain starting in {{ rainStarting }} minutes</p> -->
-              <p>Total Precipitation: {{ totalPrecip }} in</p>
+              <p *ngIf="weatherMinutely.rainStarting">Rain starting in <span class="value">{{ weatherMinutely.rainStarting }} min</span></p>
+              <p *ngIf="!weatherMinutely.rainStarting">Total Precipitation: <span class="value">{{ totalPrecip | number: '1.0-1' }} in</span></p>
           </div>
         </div>
         <div class="chart-data">
           <p *ngIf="totalPrecip === 0" class="no-rain">NO PRECIP</p>
           <span *ngFor="let minute of weatherMinutely.data" class="bar-container">
-              <span class="bar" [ngStyle]="{'height':getHeight(minute)}"></span>
+              <span class="bar" [ngStyle]="{'height':minute.chartHeight}"></span>
           </span>
         </div>
       </div>
     </ion-card-content>
     <div class="drawer">
       <div class="main-image">
-        <img [src]="getWeatherIcon(weatherCurrent)" />
+        <img [src]="weatherCurrent.icon" />
       </div>
       <ion-icon md="ios-arrow-down" class="arrow"></ion-icon>
     </div>

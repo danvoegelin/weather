@@ -1,6 +1,7 @@
 import { Injectable, ApplicationRef, Output, EventEmitter } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { ApiService } from '@services/api-service/api.service';
+import { WeatherService } from '@services/weather-service/weather.service';
 import { Place, SavedLocations, Location } from '@interfaces/places.interface';
 import { Weather, WeatherCurrent, WeatherMinutely, WeatherHourly, WeatherDaily } from '@interfaces/weather.interface';
 
@@ -10,6 +11,7 @@ import { Weather, WeatherCurrent, WeatherMinutely, WeatherHourly, WeatherDaily }
 export class DataService {
 
   constructor(
+    private weatherService: WeatherService,
     private apiService: ApiService,
     private storage: Storage,
     private ref: ApplicationRef
@@ -47,7 +49,7 @@ export class DataService {
     });
   }
 
-  setLocation(place: Place) {
+  setLocation(place: Place): Promise<Location> {
     return new Promise((resolve) => {
       this.apiService.endPlacesSession();
       let location: any = {};
@@ -66,7 +68,7 @@ export class DataService {
     });
   }
 
-  setSavedLocation(location: any) {
+  setSavedLocation(location: any): Promise<Location> {
     return new Promise((resolve) => {
       this.storage.set('setting:location', location).then((set) => {
         this.setThisLocation(location);
@@ -75,7 +77,7 @@ export class DataService {
     });
   }
 
-  getLocationFromStorage() {
+  getLocationFromStorage(): Promise<Location> {
     return new Promise((resolve) => {
       this.storage.get(`setting:location`).then((data) => {
         if (data) {
@@ -86,7 +88,7 @@ export class DataService {
     });
   }
 
-  setThisLocation(location: Location) {
+  setThisLocation(location: Location): void {
       this.currentLocation = location;
       this.location = location.location;
       this.lat = location.lat;
@@ -118,7 +120,7 @@ export class DataService {
     return locationObject.neighborhood || locationObject.sublocality || locationObject.natural_feature || locationObject.locality || locationObject.administrative_area_level_1 || locationObject.country || 'unknown';
   }
 
-  saveLocationToStorage() {
+  saveLocationToStorage(): Promise<any> {
     return new Promise((resolve) => {
       this.getSavedLocationsFromStorage().then((savedLocations: Location[]) => {
         let newLocation = { locations: [this.currentLocation] };
@@ -137,7 +139,7 @@ export class DataService {
     });
   }
 
-  locationIsntSaved(savedLocations: Location[], location: Location) {
+  locationIsntSaved(savedLocations: Location[], location: Location): boolean {
     let matchingLocations = savedLocations.filter((loc) => {
       return loc.place_id === location.place_id;
     });
@@ -178,12 +180,44 @@ export class DataService {
     });
   }
 
-  setData(data: Weather) {
-    this.data = data;
+  setData(data: Weather): void {
+    data = this.amendData(data);
+    this.data = this.filterData(data);
     this.weatherCurrent = data.currently;
     this.weatherMinutely = data.minutely;
     this.weatherHourly = data.hourly;
     this.weatherDaily = data.daily;
+  }
+
+  filterData(data: Weather): Weather {
+    data.hourly.data = data.hourly.data.slice(0, 24);
+    data.currently.icon = this.weatherService.getWeatherIcon(data.currently);
+    for (let i = 0; i < data.daily.data.length; i++) {
+      data.daily.data[i].icon = this.weatherService.getWeatherIcon(data.daily.data[i]);
+    }
+    for (let i = 0; i < data.hourly.data.length; i++) {
+      data.hourly.data[i].icon = this.weatherService.getWeatherIcon(data.hourly.data[i]);
+    }
+    return data;
+  }
+
+  amendData(data: Weather): Weather {
+    data.currently.windDirection = this.weatherService.getWindBearing(data.currently.windBearing);
+    data.currently.totalPrecip = this.weatherService.getTotalPrecip(data.currently);
+    data.currently.uvIndexValue = this.weatherService.getUVIndexValue(data.currently);
+    data.currently.uvIndexClass = this.weatherService.getUVIndexClass(data.currently.uvIndexValue);
+    for (let i = 0; i < data.daily.data.length; i++) {
+      data.daily.data[i].totalPrecip = this.weatherService.getTotalPrecip(data.daily.data[i]);
+    }
+    if (data.minutely) {
+      for (let i = 0; i < data.minutely.data.length; i++) {
+        data.minutely.data[i].chartHeight = this.weatherService.getMinutelyChartHeight(data.minutely.data[i]);
+        if (data.minutely.rainStarting === undefined && parseInt(data.minutely.data[i].chartHeight) > 0) {
+          data.minutely.rainStarting = i;
+        }
+      }
+    }
+    return data
   }
 
   getCurrentWeather(): WeatherCurrent {

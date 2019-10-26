@@ -11,13 +11,13 @@
             <div class="item-container">
               <div class="header">
                 <div class="pre-box">
-                  <span class="date">{{ getFormattedDate(day.time) }}</span>
+                  <p><span class="day">{{ day.time * 1000 | date: 'EEEE' }}</span></p>
+                  <p><span class="date">{{ day.time * 1000 | date: 'M/d' }}</span></p>
                 </div>
-                <img [src]="getWeatherIcon(day)" class="weather-icon" />
-                <!-- <div class="summary">{{ day.summary }}</div> -->
+                <img [src]="day.icon" class="weather-icon" />
                 <div class="post-box">
-                  <span class="high temp">{{ round(day.apparentTemperatureHigh) }}</span>
-                  <span class="low">{{ round(day.apparentTemperatureLow) }}</span>
+                  <span class="high temp">{{ day.apparentTemperatureHigh | number: '1.0-0' }}</span>
+                  <span class="low">{{ day.apparentTemperatureLow | number: '1.0-0' }}</span>
                   <span class="expand-arrow">
                     <ion-icon md="ios-arrow-down" [ngClass]="day.expanded ? 'rotated' : 'default'"></ion-icon>
                   </span>
@@ -25,14 +25,14 @@
               </div>
               <expandable class="expandable" expandHeight="75px" [expanded]="day.expanded">
                 <div class="pre-box">
-                  <p class="sunrise"><span>Sunrise: </span><span class="value">{{ getFormattedTime(day.sunriseTime) }}</span></p>
-                  <p class="sunset"><span>Sunset: </span><span class="value">{{ getFormattedTime(day.sunsetTime) }}</span></p>
-                  <p class="cloud"><span>Cloud Cover: </span><span class="value">{{ day.cloudCover | percent }}</span></p>
+                  <p><span>Sunrise: </span><span class="value">{{ day.sunriseTime * 1000 | date: 'shortTime' }}</span></p>
+                  <p><span>Sunset: </span><span class="value">{{ day.sunsetTime * 1000 | date: 'shortTime' }}</span></p>
+                  <p><span>Cloud Cover: </span><span class="value">{{ day.cloudCover | percent }}</span></p>
                 </div>
                 <div class="post-box">
-                  <p class="rain"><span>Precip: </span><span class="value">{{ day.precipProbability | percent }}</span></p>
-                  <p class="wind-speed"><span>Wind Speed: </span><span class="value">{{ round(day.windSpeed) }}</span></p>
-                  <p class="wind-gust"><span>Wind Gust: </span><span class="value">{{ round(day.windGust) }}</span></p>
+                  <p><span>Precip Chance: </span><span class="value">{{ day.precipProbability | percent }}</span></p>
+                  <p><span>Total Precip: </span><span class="value">{{ day.totalPrecip }} in</span></p>
+                  <p><span>Wind: </span><span class="value">{{ day.windSpeed | number: '1.0-0' }} - {{ day.windGust | number: '1.0-0' }} mph</span></p>
                 </div>
               </expandable>
             </div>

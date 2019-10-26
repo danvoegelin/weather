@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { WeatherCurrent } from '@interfaces/weather.interface';
@@ -11,13 +11,10 @@ import { DataService } from '@services/data-service/data.service';
   templateUrl: './main-card.component.html',
   styleUrls: ['./main-card.component.scss']
 })
-export class MainCardComponent implements OnInit, OnChanges {
+export class MainCardComponent implements OnInit {
 
   @Output() minutelyCard: EventEmitter<boolean> = new EventEmitter<boolean>();
   public weatherCurrent: WeatherCurrent;
-  public lastRefreshTime: string;
-  public uvIndexValue: string;
-  public uvIndexClass: string;
   public loading: boolean = true;
 
   constructor(
@@ -28,61 +25,13 @@ export class MainCardComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.dataService.reload.subscribe(() => {
       this.loading = true;
-      this.ngOnChanges();
-    })
+      this.weatherCurrent = this.dataService.getCurrentWeather();
+      this.loading = false;
+      this.scaleFontSize('div.desc p');
+    });
   }
 
-  ngOnChanges() {
-    this.weatherCurrent = this.dataService.getCurrentWeather();
-    this.updateData();
-    this.loading = false;
-    this.scaleFontSize('div.desc p');
-  }
-
-  updateData() {
-    this.updateLastRefreshTime();
-    this.getUVIndex();
-  }
-
-  updateLastRefreshTime() {
-    let timestamp = new Date(this.weatherCurrent.time * 1000);
-    this.lastRefreshTime = timestamp.toLocaleTimeString([], {hour: 'numeric', minute:'2-digit'});
-  }
-
-  round(num: number) {
-    return Math.round(num);
-  }
-
-  getUVIndex() {
-    switch(true) {
-        case this.weatherCurrent.uvIndex > 10:
-            this.uvIndexValue = 'Extremely High';
-            this.uvIndexClass = 'uv-extremely-high';
-            break;
-        case this.weatherCurrent.uvIndex > 7:
-            this.uvIndexValue = 'Very High';
-            this.uvIndexClass = 'uv-very-high';
-            break;
-        case this.weatherCurrent.uvIndex > 5:
-            this.uvIndexValue = 'High';
-            this.uvIndexClass = 'uv-high';
-            break;
-        case this.weatherCurrent.uvIndex > 2:
-            this.uvIndexValue = 'Moderate';
-            this.uvIndexClass = 'uv-moderate';
-            break;
-        case this.weatherCurrent.uvIndex > 0:
-            this.uvIndexValue = 'Low';
-            this.uvIndexClass = 'uv-low';
-            break;
-        default:
-            this.uvIndexValue = 'None';
-            this.uvIndexClass = 'uv-none';
-            break;
-    }
-  }
-
-  scaleFontSize(element) {
+  scaleFontSize(element): void {
     setTimeout(function(){
       var container = document.querySelectorAll(element)[0];
       container.style.fontSize = '28px';
@@ -92,11 +41,7 @@ export class MainCardComponent implements OnInit, OnChanges {
     }, 150);
   }
 
-  getWeatherIcon(weatherData: any) {
-    return this.weatherService.getWeatherIcon(weatherData);
-  }
-
-  toggleMinuteCard() {
+  toggleMinuteCard(): void {
     this.minutelyCard.emit();
   }
 }

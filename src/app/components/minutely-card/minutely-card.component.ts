@@ -1,6 +1,6 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
-import { WeatherHourly, WeatherMinutely, WeatherCurrent } from '@interfaces/weather.interface';
+import { WeatherHourly, WeatherMinutely, WeatherCurrent, DataDaily } from '@interfaces/weather.interface';
 
 import { WeatherService } from '@services/weather-service/weather.service';
 import { DataService } from '@services/data-service/data.service';
@@ -10,13 +10,14 @@ import { DataService } from '@services/data-service/data.service';
   templateUrl: './minutely-card.component.html',
   styleUrls: ['./minutely-card.component.scss'],
 })
-export class MinutelyCardComponent implements OnInit, OnChanges {
+export class MinutelyCardComponent implements OnInit {
 
   @Output() minutelyCard: EventEmitter<boolean> = new EventEmitter<boolean>();
   private minutelyCardVisible = false;
   public weatherCurrent: WeatherCurrent;
   public weatherMinutely: WeatherMinutely;
   public weatherHourly: WeatherHourly;
+  public weatherToday: DataDaily;
   public totalPrecip: number = 0;
   public rainStarting: number = 0;
   public loading: boolean = true;
@@ -30,37 +31,17 @@ export class MinutelyCardComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.dataService.reload.subscribe(() => {
       this.loading = true;
-      this.ngOnChanges();
-    })
+      this.weatherToday = this.dataService.getDailyWeather().data[0];
+      this.weatherHourly = this.dataService.getHourlyWeather();
+      this.weatherCurrent = this.dataService.getCurrentWeather();
+      this.weatherMinutely = this.dataService.getMinutelyWeather();
+      this.minutelyData = !!this.weatherMinutely;
+      this.getTotalPrecip();
+      this.loading = false;
+    });
   }
 
-  ngOnChanges() {
-    this.weatherHourly = this.dataService.getHourlyWeather();
-    this.weatherCurrent = this.dataService.getCurrentWeather();
-    this.weatherMinutely = this.dataService.getMinutelyWeather();
-    this.minutelyData = !!this.weatherMinutely;
-    this.getTotalPrecip();
-    this.loading = false;
-  }
-
-  getFormattedDate(date: number) {
-    let timestamp = new Date(date * 1000)
-    return timestamp.toLocaleTimeString([], {hour: 'numeric'});
-  }
-
-  getHeight(weatherData: any) {
-    return `${weatherData.precipIntensity > 0 ? (weatherData.precipIntensity * 400) + 2 : 0}px`;
-  }
-
-  round(num: number) {
-    return Math.round(num);
-  }
-
-  getWeatherIcon(weatherData: any) {
-    return this.weatherService.getWeatherIcon(weatherData);
-  }
-
-  getTotalPrecip() {
+  getTotalPrecip(): void {
     this.totalPrecip = 0;
     let percentageSecondHour = (((this.weatherCurrent.time - this.weatherHourly.data[0].time) / 60) / 60);
     let percentageFirstHour = (1 - percentageSecondHour);
@@ -68,11 +49,7 @@ export class MinutelyCardComponent implements OnInit, OnChanges {
     this.totalPrecip = parseFloat(rawPrecipTotal.toFixed(2));
   }
 
-  getWindBearing(windBearing: number) {
-    return this.weatherService.getWindBearing(windBearing);
-  }
-
-  toggleMinutelyCard() {
+  toggleMinutelyCard(): void {
     this.minutelyCard.emit();
   }
 }

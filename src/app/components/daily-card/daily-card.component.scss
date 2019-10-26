@@ -35,9 +35,13 @@ ion-content {
                             .pre-box {
                                 width: 90px;
                                 margin: 5px 25px 0 5px;
-                                .date {
+                                .day {
                                     font-weight: 600;
                                     font-size: 16px;
+                                }
+                                .date {
+                                    position: relative;
+                                    top: -5px;
                                 }
                             }
                             .summary {
@@ -89,10 +93,10 @@ ion-content {
                             .post-box {
                                 float: right;
                                 width: auto;
-                                padding: 0 20px;
+                                padding: 0 20px 0 0;
                                 p {
                                     font-weight: 500;
-                                    padding-right: 30px;
+                                    padding-right: 15px;
                                 }
                                 .value {
                                     font-weight: 600;

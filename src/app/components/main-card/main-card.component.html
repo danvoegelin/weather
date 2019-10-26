@@ -2,22 +2,22 @@
     <ion-card class="main-card">
       <ion-card-header>
         <ion-card-title>
-          Current Weather: {{ lastRefreshTime }}
+          Current Weather: {{ weatherCurrent.time * 1000 | date: 'shortTime' }}
         </ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <div class="main">
-          <div class="temp"><p>{{ round(weatherCurrent.temperature) }}</p></div>
+          <div class="temp"><p>{{ weatherCurrent.temperature | number: '1.0-0' }}</p></div>
           <div class="desc"><p>{{ weatherCurrent.summary }}</p></div>
         </div>        
         <div class="info">
-          <h5><p>UV Index:</p><p class="info-value" [ngClass]="uvIndexClass">{{ uvIndexValue }}</p></h5>
-          <h5><p>Wind Speed:</p><p class="info-value">{{ round(weatherCurrent.windSpeed) }} mph</p></h5>
+          <h5><p>UV Index:</p><p class="info-value" [ngClass]="weatherCurrent.uvIndexClass">{{ weatherCurrent.uvIndexValue }}</p></h5>
+          <h5><p>Wind:</p><p class="info-value">{{ weatherCurrent.windSpeed | number: '1.0-0' }} mph - {{ weatherCurrent.windDirection }}</p></h5>
           <h5><p>Cloud Cover:</p><p class="info-value">{{ weatherCurrent.cloudCover | percent }}</p></h5>
           <h5><p>Humidity:</p><p class="info-value">{{ weatherCurrent.humidity | percent }}</p></h5>
         </div>
         <div class="main-image">
-          <img [src]="getWeatherIcon(weatherCurrent)" />
+          <img [src]="weatherCurrent.icon" />
         </div>
       </ion-card-content>
     </ion-card>

@@ -55,6 +55,9 @@ ion-content {
             padding: 0 10px;
             ion-card-subtitle {
             }
+            span.value {
+                font-weight: 600;
+            }
             .more-details {
                 display: flex;
                 position: absolute;
@@ -73,9 +76,6 @@ ion-content {
                     text-align: left;
                     position: absolute;
                     left: 50%;
-                }
-                span.value {
-                    font-weight: 600;
                 }
             }
             .empty-state {

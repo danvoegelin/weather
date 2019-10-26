@@ -4,8 +4,10 @@ export interface Weather {
     timezone: string;
     currently: WeatherCurrent;
     hourly: WeatherHourly;
-    minutely: WeatherMinutely;
+    minutely?: WeatherMinutely;
     daily: WeatherDaily;
+    alerts?: any;
+    flags: any;
 }
 
 export interface WeatherCurrent {
@@ -14,6 +16,8 @@ export interface WeatherCurrent {
     icon: string;
     nearestStormDistance: number;
     nearestStormBearing: number;
+    totalPrecip?: number;
+    precipType?: string;
     precipIntensity: number;
     precipProbability: number;
     temperature: number;
@@ -23,9 +27,12 @@ export interface WeatherCurrent {
     pressure: number;
     windSpeed: number;
     windGust: number;
-    windBearing: number;
+    windBearing?: number;
+    windDirection?: string;
     cloudCover: number;
     uvIndex: number;
+    uvIndexValue?: string;
+    uvIndexClass?: string;
     visibility: number;
     ozone: number;
 }
@@ -34,6 +41,7 @@ export interface WeatherMinutely {
     summary: string;
     icon: string;
     data: DataMinutely[];
+    rainStarting?: number;
 }
 
 export interface WeatherHourly {
@@ -50,6 +58,7 @@ export interface WeatherDaily {
 
 export interface DataMinutely {
     time: number;
+    chartHeight?: string;
     precipIntensity: number;
     precipProbability: number;
 }
@@ -58,6 +67,8 @@ export interface DataHourly {
     time: number;
     summary: string;
     icon: string;
+    precipAccumulation: number;
+    precipType?: string;
     precipIntensity: number;
     precipProbability: number;
     temperature: number;
@@ -67,7 +78,7 @@ export interface DataHourly {
     pressure: number;
     windSpeed: number;
     windGust: number;
-    windBearing: number;
+    windBearing?: number;
     cloudCover: number;
     uvIndex: number;
     visibility: number;
@@ -82,6 +93,8 @@ export interface DataDaily {
     sunriseTime: number;
     sunsetTime: number;
     moonPhase: number;
+    totalPrecip?: number;
+    precipAccumulation?: number;
     precipIntensity: number;
     precipIntensityMax: number;
     precipIntensityMaxTime: number;
@@ -101,7 +114,7 @@ export interface DataDaily {
     windSpeed: number;
     windGust: number;
     windGustTime: number;
-    windBearing: number;
+    windBearing?: number;
     cloudCover: number;
     uvIndex: number;
     uvIndexTime: number;

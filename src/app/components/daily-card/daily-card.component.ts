@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { WeatherDaily } from '@interfaces/weather.interface';
 
@@ -10,7 +10,7 @@ import { DataService } from '@services/data-service/data.service';
   templateUrl: './daily-card.component.html',
   styleUrls: ['./daily-card.component.scss'],
 })
-export class DailyCardComponent implements OnInit, OnChanges {
+export class DailyCardComponent implements OnInit {
 
   public weatherDaily: WeatherDaily;
   public loading: boolean = true;
@@ -23,31 +23,9 @@ export class DailyCardComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.dataService.reload.subscribe(() => {
       this.loading = true;
-      this.ngOnChanges();
-    })
-  }
-
-  ngOnChanges() {
-    this.weatherDaily = this.dataService.getDailyWeather();
-    this.loading = false;
-  }
-
-  getFormattedDate(date: number) {
-    let datestamp = new Date(date * 1000)
-    return datestamp.toLocaleDateString([], {weekday: 'long'});
-  }
-
-  getFormattedTime(time: number) {
-    let timestamp = new Date(time * 1000)
-    return timestamp.toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'});
-  }
-
-  getWeatherIcon(weatherData: any) {
-    return this.weatherService.getWeatherIcon(weatherData);
-  }
-
-  round(num: number) {
-    return Math.round(num);
+      this.weatherDaily = this.dataService.getDailyWeather();
+      this.loading = false;
+    });
   }
 
   expandItem(day: any): void {

@@ -1,0 +1,1 @@
+copy /y A:\weather\build-extras.gradle A:\weather\platforms\android\app\build-extras.gradle

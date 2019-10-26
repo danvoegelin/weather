@@ -20,7 +20,10 @@ export class WeatherService implements OnInit {
   getWeatherIcon(weatherData: any): string {
     switch (weatherData.icon) {
       case 'rain':
-        if (weatherData.precipProbability < .5 || weatherData.precipIntensity < .1) {
+        if (weatherData.totalPrecip === 0) {
+          return `assets/icon/weather/svg/cloudy.svg`;
+        }
+        else if ((weatherData.precipProbability < .5 || weatherData.precipIntensity < .1) && (!weatherData.totalPrecip || weatherData.totalPrecip < 1)) {
           return `assets/icon/weather/svg/rain-1.svg`;
         } else {
           return `assets/icon/weather/svg/rain-2.svg`;
@@ -48,5 +51,36 @@ export class WeatherService implements OnInit {
   getWindBearing(windBearing: number): string {
     let directions: string[] = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW', 'N'];
     return directions[Math.floor(((windBearing - 22.5) % 360) / 45) + 1];
+  }
+
+  getTotalPrecip(day): number {
+    let totalPrecip: number = day.precipIntensity * 24;
+    return totalPrecip >= .1 ? parseFloat(totalPrecip.toFixed(1)) : 0;
+  }
+
+  getMinutelyChartHeight(weatherData: DataMinutely): string {
+    return `${weatherData.precipIntensity > 0 ? (weatherData.precipIntensity * 400) + 2 : 0}px`;
+  }
+
+
+  getUVIndexValue(weatherCurrent: WeatherCurrent): string {
+    switch(true) {
+      case weatherCurrent.uvIndex > 10:
+        return 'Extremely High';
+      case weatherCurrent.uvIndex > 7:
+        return 'Very High';
+      case weatherCurrent.uvIndex > 5:
+        return 'High';
+      case weatherCurrent.uvIndex > 2:
+        return 'Moderate';
+      case weatherCurrent.uvIndex > 0:
+        return 'Low';
+      default:
+        return 'None';
+    }
+  }
+
+  getUVIndexClass(uvIndexValue: string): string {
+    return `uv-${uvIndexValue.replace(' ', '-').toLowerCase()}`;
   }
 }

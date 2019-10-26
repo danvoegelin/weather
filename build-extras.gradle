@@ -1,0 +1,5 @@
+// This file is included at the beginning of `build.gradle`
+
+dependencies {
+    implementation "com.google.android.gms:play-services-ads:18.1.1"
+}

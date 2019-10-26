@@ -7,7 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { IonicStorageModule } from '@ionic/storage';
 import { IonicModule, IonicRouteStrategy, MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { AppMinimize } from '@ionic-native/app-minimize/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+// import { AdMobFree, AdMobFreeBannerConfig } from '@ionic-native/admob-free/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -35,10 +37,12 @@ import { MainPageModule } from '@pages/main/main.module';
   providers: [
     MenuController,
     StatusBar,
+    AppMinimize,
     SplashScreen,
     ApiService,
     DataService,
     WeatherService,
+    // AdMobFree,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HAMMER_GESTURE_CONFIG, useClass: CustomGestureConfig }
   ],

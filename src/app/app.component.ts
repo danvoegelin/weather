@@ -3,6 +3,8 @@ import { Component, Input, ApplicationRef } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AppMinimize } from '@ionic-native/app-minimize/ngx';
+// import { AdMobFree, AdMobFreeBannerConfig } from '@ionic-native/admob-free/ngx';
 
 import { Weather } from '@interfaces/weather.interface';
 import { Place, Location } from '@interfaces/places.interface';
@@ -14,7 +16,7 @@ import { DataService } from '@services/data-service/data.service';
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
-
+  private backButtonSubscription;
   public data: Weather;
   public savedTheme: string;
   public savedThemeLabel: string;
@@ -47,14 +49,20 @@ export class AppComponent {
       active: this.theme === 'dynamic',
     },
   ];
+  // private bannerConfig: AdMobFreeBannerConfig = {
+  //   isTesting: true,
+  //   autoShow: true
+  // };
 
   constructor(
     private platform: Platform,
-    private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private apiService: ApiService,
+    private appMinimize: AppMinimize,
+    private splashScreen: SplashScreen,
     private dataService: DataService,
+    private apiService: ApiService,
     private ref: ApplicationRef,
+    // private admobFree: AdMobFree,
   ) {
     this.initializeApp();
   }
@@ -77,6 +85,17 @@ export class AppComponent {
       });
       this.statusBar.show();
       setTimeout(this.hideSplash().bind(this), 500);
+      this.backButtonSubscription = this.platform.backButton.subscribe(() => {
+        this.appMinimize.minimize();
+      });
+      // this.admobFree.banner.config(this.bannerConfig);
+      // this.admobFree.banner.prepare()
+      //   .then(() => {
+      //     console.log('banner ad is ready')
+      //     // banner Ad is ready
+      //     // if we set autoShow to false, then we will need to call the show method here
+      //   })
+      // .catch(e => console.log(e));
     });
   }
 

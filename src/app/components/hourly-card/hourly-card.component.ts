@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { WeatherHourly } from '@interfaces/weather.interface';
 
@@ -10,7 +10,7 @@ import { DataService } from '@services/data-service/data.service';
   templateUrl: './hourly-card.component.html',
   styleUrls: ['./hourly-card.component.scss'],
 })
-export class HourlyCardComponent implements OnInit, OnChanges {
+export class HourlyCardComponent implements OnInit {
 
   @Input() minutelyCard: boolean;
   public weatherHourly: WeatherHourly;
@@ -25,30 +25,19 @@ export class HourlyCardComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.dataService.reload.subscribe(() => {
       this.loading = true;
-      this.ngOnChanges();
-    })
+      this.weatherHourly = this.dataService.getHourlyWeather();
+      // setTimeout(this.staggerDropIn(), 100); // animation too choppy on older phones
+      setTimeout(this.setLoading().bind(this), 50);
+    });
   }
 
-  ngOnChanges() {
-    this.weatherHourly = this.dataService.getHourlyWeather();
-    this.loading = false;
-    // setTimeout(this.staggerDropIn(), 1000); // animation too choppy on older phones
+  setLoading() {
+    return function() {
+      this.loading = false;
+    }
   }
 
-  getFormattedTime(date: number) {
-    let timestamp = new Date(date * 1000)
-    return timestamp.toLocaleTimeString([], {hour: 'numeric'});
-  }
-
-  round(num: number) {
-    return Math.round(num);
-  }
-
-  getWeatherIcon(weatherData: any) {
-    return this.weatherService.getWeatherIcon(weatherData);
-  }
-
-  staggerDropIn() {
+  staggerDropIn(): any {
     return function() {
       const items = document.querySelectorAll('ion-item.hourly');
       for (let i = 0; i < items.length; i++) {

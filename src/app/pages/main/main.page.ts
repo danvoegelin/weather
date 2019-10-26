@@ -25,9 +25,8 @@ export class MainPage implements OnInit {
   public refresherClass: string = '';
   public loadAnimation: string = '';
   public slideOpts = {
-    initialSlide: 0,
-    speed: 250,
-    watchOverflow: true,
+    watchOverflow: false,
+    initialSlide: 1,
     resistanceRatio: 0
   };
 
@@ -60,10 +59,6 @@ export class MainPage implements OnInit {
 
   setLoadAnimation(loading: boolean) {
     this.loadAnimation = loading ? '' : 'fade-in';
-  }
-
-  round(num: number) {
-    return Math.round(num);
   }
 
   toggleMinuteCard(setToValue: boolean = !this.minutelyCardVisible) {
