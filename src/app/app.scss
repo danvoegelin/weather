@@ -40,6 +40,12 @@
       background: var(--dark-card-background);
     }
   }
+  ion-card.minutely-card {
+    background: var(--dark-card-background-lighter);
+    ion-card-header {
+      background: var(--dark-card-background-lighter);
+    }
+  }
   ion-card.list-item {
     color: var(--dark-text-color);
     background: var(--dark-card-background);
@@ -79,9 +85,15 @@
     }
     &.background {
       ion-card-header {
-        background: var(--light-card-background-darker);
+        background: var(--light-card-background-lighter);
       }
       background: var(--light-card-background);
+    }
+  }
+  ion-card.minutely-card {
+    background: var(--light-card-background-lighter);
+    ion-card-header {
+      background: var(--light-card-background-lighter);
     }
   }
   ion-card.list-item {
@@ -95,7 +107,7 @@
     color: var(--light-temp-color);
   }
   .container {
-    background: var(--light-card-background-darker);
+    background: var(--light-card-background-lighter);
     box-shadow: 0 -6px 9px -9px rgba(0, 0, 0, 0.5) inset, 0 8px 10px -10px rgba(0, 0, 0, 0.4) inset;
   }
 }

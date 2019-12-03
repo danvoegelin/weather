@@ -2,13 +2,15 @@
 
 :root {
   /** light theme **/
-  --light-card-background: #ffffff;
-  --light-card-background-darker: #f4f5f8;
-  --light-header-background: #222428;
-  --light-text-color: #737373;
-  --light-temp-color: #545454;
+  --light-card-background-lighter: #CFD8DC;
+  --light-card-background: #B0BEC5;
+  --light-card-background-darker: #78909C;
+  --light-header-background: #3b3834;
+  --light-text-color: #4d4944;
+  --light-temp-color: #212121;
 
   /** dark theme **/
+  --dark-card-background-lighter: #1f1f1f;
   --dark-card-background: #262626;
   --dark-card-background-darker: #000000;
   --dark-header-background: #000000;

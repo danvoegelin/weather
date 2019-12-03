@@ -1,5 +1,5 @@
 <ion-content (click)="toggleMinutelyCard()" *ngIf=!loading [ngClass]="!minutelyData ? 'no-data' : ''">
-  <ion-card class="main-card">
+  <ion-card class="main-card minutely-card">
     <ion-card-header>
       <ion-card-title *ngIf="minutelyData">
         {{ weatherMinutely.summary }}

@@ -21,7 +21,11 @@ export class WeatherService implements OnInit {
     switch (weatherData.icon) {
       case 'rain':
         if (weatherData.totalPrecip === 0) {
-          return `assets/icon/weather/svg/cloudy.svg`;
+          if (weatherData.windSpeed > 10 && weatherData.windGust > 50) {
+            return `assets/icon/weather/svg/wind.svg`;
+          } else {
+            return `assets/icon/weather/svg/cloudy.svg`;
+          }
         }
         else if ((weatherData.precipProbability < .5 || weatherData.precipIntensity < .1) && (!weatherData.totalPrecip || weatherData.totalPrecip < 1)) {
           return `assets/icon/weather/svg/rain-1.svg`;
@@ -29,8 +33,22 @@ export class WeatherService implements OnInit {
           return `assets/icon/weather/svg/rain-2.svg`;
         }
         break;
+      case 'snow':
+        if (weatherData.totalPrecip === 0) {
+          return `assets/icon/weather/svg/cloudy.svg`;
+        } else if ((weatherData.precipProbability < .1 || weatherData.precipAccumulation < 1)) {
+          return `assets/icon/weather/svg/snow-1.svg`;
+        } else if ((weatherData.precipProbability < .2 || weatherData.precipAccumulation < 2)) {
+          return `assets/icon/weather/svg/snow-2.svg`;
+        } else if ((weatherData.windSpeed > 10 && weatherData.precipAccumulation >= 6)) {
+          return `assets/icon/weather/svg/snow-4.svg`;
+        } else {
+          return `assets/icon/weather/svg/snow-3.svg`;
+        }
       case 'partly-cloudy-day':
-        if (weatherData.cloudCover < .5) {
+        if (weatherData.windSpeed > 10 && weatherData.windGust > 50) {
+          return `assets/icon/weather/svg/wind.svg`;
+        } else if (weatherData.cloudCover < .5) {
           return `assets/icon/weather/svg/partly-cloudy-day.svg`;
         } else {
           return `assets/icon/weather/svg/mostly-cloudy-day.svg`;
@@ -54,7 +72,7 @@ export class WeatherService implements OnInit {
   }
 
   getTotalPrecip(day): number {
-    let totalPrecip: number = day.precipIntensity * 24;
+    let totalPrecip: number = day.precipIntensity * 24 + (day.precipAccumulation || 0);
     return totalPrecip >= .1 ? parseFloat(totalPrecip.toFixed(1)) : 0;
   }
 
