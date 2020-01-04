@@ -41,7 +41,7 @@ ion-content {
                             }
                             .pre-box {
                                 width: 90px;
-                                margin: 5px 25px 0 5px;
+                                margin: 5px 0 0 5px;
                                 .day {
                                     font-weight: 600;
                                     font-size: 16px;
@@ -56,9 +56,14 @@ ion-content {
                                 width: 100%;
                                 font-size: 14px;
                             }
+                            .weather-icon {
+                                max-height: 53px !important;
+                                margin: auto;
+                            }
                             .post-box {
-                                position: absolute;
-                                right: 15px;
+                                position: relative !important;
+                                right: 0 !important;
+                                padding-right: 15px;
                                 .high {
                                     font-size: 40px;
                                 }

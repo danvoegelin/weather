@@ -248,18 +248,38 @@
     ion-list {
       padding-top: 0px !important;
       padding-bottom: 1px !important;
-    }
-    img {
-      max-height: 35px !important;
+      .post-box {
+        width: 38%;
+        height: 100%;
+        .weather-icon {
+          position: absolute;
+          left: 0;
+          width: 63%;
+          height: 100%;
+          display: flex;
+          img {
+            margin: auto;
+            max-height: 38px !important;
+          }
+        }
+        .precip-box {
+          position: absolute;
+          right: 0;
+        }
+      }
     }
   }
   daily-card {
+    ion-card.main-card ion-card-header ion-card-title {
+      -webkit-animation: scroll 10s linear infinite;
+    }
     ion-list {
       background: var(--retro-card-background);
-    }
-    img {
-      margin: 5px;
-      max-height: 50px !important;
+      .header {
+        .pre-box {
+          width: 75px !important;
+        }
+      }
     }
   }
 }
@@ -376,4 +396,9 @@ ion-content {
 @-webkit-keyframes rotateBack {
   0% { transform: rotate(180deg); }
   100% { transform: rotate(0deg); }
+}
+
+@-webkit-keyframes scroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
 }

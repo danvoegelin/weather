@@ -19,7 +19,7 @@
                     <span class="temp">{{ hour.apparentTemperature | number: '1.0-0' }}</span>
                     <div class="post-box">
                       <span class="weather-icon"><img [src]="hour.iconPath" /></span>
-                      <span>
+                      <span class="precip-box">
                         <p class="precip">Precip:</p>
                         <p class="rain">{{ hour.precipProbability | percent }}</p>
                       </span>
