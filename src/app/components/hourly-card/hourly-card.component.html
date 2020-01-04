@@ -1,4 +1,4 @@
-<ion-content *ngIf="!loading">
+<ion-content>
     <ion-card class="main-card background">
 <!--       <ion-card-header>
         <ion-card-title>
@@ -18,7 +18,7 @@
                     </div>
                     <span class="temp">{{ hour.apparentTemperature | number: '1.0-0' }}</span>
                     <div class="post-box">
-                      <span class="weather-icon"><img [src]="hour.icon" /></span>
+                      <span class="weather-icon"><img [src]="hour.iconPath" /></span>
                       <span>
                         <p class="precip">Precip:</p>
                         <p class="rain">{{ hour.precipProbability | percent }}</p>

@@ -12,7 +12,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "platform": "ionic cordova platform rm android && ionic cordova platform add android",
-    "sideload": "adb uninstall com.dan.weather && adb install A:/weather/platforms/android/app/build/outputs/apk/debug/app-debug.apk"
+    "sideload": "adb uninstall com.dan.weather && adb install A:/weather/platforms/android/app/build/outputs/apk/debug/app-debug.apk",
+    "build-load": "npm run build && npm run sideload"
   },
   "private": true,
   "dependencies": {

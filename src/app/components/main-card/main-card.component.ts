@@ -15,7 +15,7 @@ export class MainCardComponent implements OnInit {
 
   @Output() minutelyCard: EventEmitter<boolean> = new EventEmitter<boolean>();
   public weatherCurrent: WeatherCurrent;
-  public loading: boolean = true;
+  public degree: string;
 
   constructor(
     private weatherService: WeatherService,
@@ -23,22 +23,30 @@ export class MainCardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getComponentWeatherData();
     this.dataService.reload.subscribe(() => {
-      this.loading = true;
-      this.weatherCurrent = this.dataService.getCurrentWeather();
-      this.loading = false;
-      this.scaleFontSize('div.desc p');
+      this.getComponentWeatherData();
     });
   }
 
+  getComponentWeatherData() {
+    this.weatherCurrent = this.dataService.getCurrentWeather();
+    this.setDegree();
+    this.scaleFontSize('div.desc p');
+  }
+
   scaleFontSize(element): void {
-    setTimeout(function(){
-      var container = document.querySelectorAll(element)[0];
+    setTimeout(() => {
+      const container = document.querySelectorAll(element)[0];
       container.style.fontSize = '28px';
       if (container.textContent.length > 16) {
           container.style.fontSize = '20px';
       }
     }, 150);
+  }
+
+  setDegree() {
+    this.degree = this.weatherService.theme === 'retro' ? '°' : '';
   }
 
   toggleMinuteCard(): void {

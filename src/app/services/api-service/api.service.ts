@@ -14,16 +14,16 @@ export class ApiService {
     private http: HttpClient,
   ) { }
 
-  private placesSession: string = '';
-  private darkskyApiKey: string = '';
-  private forecastUrl: string = 'https://api.darksky.net/forecast/';
-  private googlePlacesApiKey: string = '';
-  private googlePlacesUrl: string = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?';
-  private googlePlacesDetailsUrl: string = 'https://maps.googleapis.com/maps/api/place/details/json?';
-  public corsProxy: string = 'https://cors-anywhere.herokuapp.com/';
+  private placesSession = '';
+  private darkskyApiKey = '';
+  private forecastUrl = 'https://api.darksky.net/forecast/';
+  private googlePlacesApiKey = '';
+  private googlePlacesUrl = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?';
+  private googlePlacesDetailsUrl = 'https://maps.googleapis.com/maps/api/place/details/json?';
+  public corsProxy = 'https://cors-anywhere.herokuapp.com/';
 
   public getWeather(lat: number, long: number): Observable<Weather> {
-    console.log('getting weather..')
+    console.log('getting weather..');
     return this.http.get<Weather>(this.getForecastUrl(lat.toString(), long.toString()));
   }
 
@@ -32,7 +32,7 @@ export class ApiService {
   }
 
   private createUUIDToken(): string {
-    let uuid = v4();
+    const uuid = v4();
     return uuid;
   }
 
@@ -56,7 +56,7 @@ export class ApiService {
   }
 
   private getPlacesDetailsUrl(placeId: string) {
-    return `${this.corsProxy}${this.googlePlacesDetailsUrl}key=${this.googlePlacesApiKey}&sessiontoken=${this.placesSession}&placeid=${placeId}`;
+    return `${this.corsProxy}${this.googlePlacesDetailsUrl}key=${this.googlePlacesApiKey}&sessiontoken=${this.placesSession}&placeid=${placeId}`; // tslint:disable-line
   }
 
   public getPlaceDetail(place: Place): Observable<any> {

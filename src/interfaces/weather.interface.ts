@@ -14,6 +14,7 @@ export interface WeatherCurrent {
     time: number;
     summary: string;
     icon: string;
+    iconPath?: string;
     nearestStormDistance: number;
     nearestStormBearing: number;
     totalPrecip?: number;
@@ -40,6 +41,7 @@ export interface WeatherCurrent {
 export interface WeatherMinutely {
     summary: string;
     icon: string;
+    iconPath?: string;
     data: DataMinutely[];
     rainStarting?: number;
 }
@@ -47,12 +49,14 @@ export interface WeatherMinutely {
 export interface WeatherHourly {
     summary: string;
     icon: string;
+    iconPath?: string;
     data: DataHourly[];
 }
 
 export interface WeatherDaily {
     summary: string;
     icon: string;
+    iconPath?: string;
     data: DataDaily[];
 }
 
@@ -67,6 +71,7 @@ export interface DataHourly {
     time: number;
     summary: string;
     icon: string;
+    iconPath?: string;
     precipAccumulation: number;
     precipType?: string;
     precipIntensity: number;
@@ -90,6 +95,7 @@ export interface DataDaily {
     time: number;
     summary: string;
     icon: string;
+    iconPath?: string;
     sunriseTime: number;
     sunsetTime: number;
     moonPhase: number;

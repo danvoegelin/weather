@@ -1,5 +1,4 @@
 :host {
-    z-index: -1;
     width: 100%;
     display: block;
     &.default {
@@ -70,6 +69,7 @@ ion-content {
                     .value {
                         font-size: 50px;
                         line-height: 40px;
+                        text-align: center;
                     }
                 }
                 .post-box {
@@ -146,6 +146,7 @@ ion-content {
                         font-size: 40px;
                         line-height: 120px;
                         width: 100%;
+                        text-align: center;
                     }
                     width: calc(100% - 26px);
                     position: absolute;
@@ -183,6 +184,7 @@ ion-content {
             bottom: 0;
             height: 19px;
             width: 100%;
+            text-align: center;
             .main-image {
                 position: absolute;
                 right: -15px;

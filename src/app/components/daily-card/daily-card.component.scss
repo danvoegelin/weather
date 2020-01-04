@@ -1,9 +1,13 @@
 :host {
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    left: 0px;
 }
 
 ion-content {
     ion-card {
-        height: 100%;
         overflow: auto;
         ion-card-header {
             box-shadow: 0 -7px 9px -9px rgba(0, 0, 0, .5) inset, 0 8px 10px -10px rgba(0, 0, 0, 0.4) inset;
@@ -16,6 +20,8 @@ ion-content {
             }
             ion-list {
                 padding: 0;
+                scroll-behavior: smooth;
+                transition: padding-bottom 0.4s ease-in-out;
                 width: 100%;
                 ion-item {
                     --padding-start: 0px;
@@ -31,6 +37,7 @@ ion-content {
                             img {
                                 display: flex;
                                 max-height: 63px;
+                                width: auto;
                             }
                             .pre-box {
                                 width: 90px;

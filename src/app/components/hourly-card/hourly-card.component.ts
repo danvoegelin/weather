@@ -15,7 +15,6 @@ export class HourlyCardComponent implements OnInit {
   @Input() minutelyCard: boolean;
   public weatherHourly: WeatherHourly;
   public staggerFunction = this.staggerDropIn();
-  public loading: boolean = true;
 
   constructor(
     private weatherService: WeatherService,
@@ -23,29 +22,20 @@ export class HourlyCardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.weatherHourly = this.dataService.getHourlyWeather();
     this.dataService.reload.subscribe(() => {
-      this.loading = true;
       this.weatherHourly = this.dataService.getHourlyWeather();
-      // setTimeout(this.staggerDropIn(), 100); // animation too choppy on older phones
-      setTimeout(this.setLoading().bind(this), 50);
     });
   }
 
-  setLoading() {
-    return function() {
-      this.loading = false;
-    }
-  }
-
   staggerDropIn(): any {
-    return function() {
+    return () => {
       const items = document.querySelectorAll('ion-item.hourly');
       for (let i = 0; i < items.length; i++) {
-        setTimeout(function(){ items[i].classList.toggle('slide-in') }, i * 50);
-        setTimeout(function(){ items[i].classList.toggle('hide') }, i * 50);
+        setTimeout(() => { items[i].classList.toggle('slide-in'); }, i * 50);
+        setTimeout(() => { items[i].classList.toggle('hide'); }, i * 50);
       }
-      this.loading = false;
-    }
+    };
   }
 
   expandItem(hour: any): void {
@@ -53,7 +43,7 @@ export class HourlyCardComponent implements OnInit {
       hour.expanded = false;
     } else {
       this.weatherHourly.data.map(hourItem => {
-        if (hour == hourItem) {
+        if (hour === hourItem) {
           hourItem.expanded = !hourItem.expanded;
         } else {
           hourItem.expanded = false;

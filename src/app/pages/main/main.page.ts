@@ -16,24 +16,38 @@ export class MainPage implements OnInit {
     public renderer: Renderer2,
   ) {}
 
-  private init: boolean = false;
-  public loading: boolean = true;
-  public disableRefresh: boolean = false;
-  public minutelyCardDefault: boolean = true;
-  public minutelyCardVisible: boolean = false;
-  public noMinutelyData: boolean = false;
-  public refresherClass: string = '';
-  public loadAnimation: string = '';
+  public init = false;
+  public loading = true;
+  public hideSplash = false;
+  public locationSet = false;
+  public disableRefresh = false;
+  public minutelyCardDefault = true;
+  public minutelyCardVisible = false;
+  public noMinutelyData = false;
+  public refresherClass = '';
+  public loadAnimation = '';
   public slideOpts = {
     watchOverflow: false,
-    initialSlide: 1,
+    initialSlide: 0,
     resistanceRatio: 0
   };
 
   ngOnInit() {
-    this.init = true;
-    this.loading = true;
+    if (!this.init) {
+      this.init = true;
+      if (this.dataService.currentLocation) {
+        this.dataService.callReload();
+        this.hideSplash = true;
+        this.locationSet = true;
+      }
+    }
+    this.hideSplash = this.dataService.hideMainSplash;
+    this.dataService.hideSplash.subscribe((hide) => {
+      this.hideSplash = hide;
+    });
     this.dataService.reload.subscribe(() => {
+      this.locationSet = true;
+      this.loading = true;
       this.minutelyCardDefault = true;
       this.minutelyCardVisible = false;
       this.renderer.removeClass(this.el.nativeElement, 'ion-page-invisible');
@@ -43,7 +57,7 @@ export class MainPage implements OnInit {
     this.dataService.refreshing.subscribe((refreshing: boolean) => {
       this.setRefresherClass(refreshing);
       this.setLoadAnimation(refreshing);
-    })
+    });
   }
 
   public refreshData() {

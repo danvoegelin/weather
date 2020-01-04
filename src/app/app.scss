@@ -5,14 +5,26 @@
 // file can hold Sass mixins, functions, and placeholder classes to be imported 
 // and used throughout the application.
 
+@font-face {
+  font-family: 'Star4000';
+  src: url('./../assets/fonts/Star4000.woff') format('woff');
+}
+
 :host {
   margin: 0;
+  background: var(--retro-card-background) !important;
 }
 .dark {
+  .loaded-splash {
+    background: var(--dark-card-background-darker);
+  }
   background: var(--dark-card-background-darker);
   --color: var(--dark-text-color);
   ion-toolbar {
     --background: var(--dark-header-background);
+    ion-title {
+      color: var(--dark-temp-color);
+    }
   }
   ion-card.main-card {
     color: var(--dark-text-color);
@@ -60,12 +72,26 @@
     background: var(--dark-card-background-darker);
     box-shadow: 0 -6px 9px -9px rgba(0, 0, 0, 0.5) inset, 0 8px 10px -10px rgba(0, 0, 0, 0.4) inset;
   }
+  ion-slides {
+    background: var(--dark-card-background) !important;
+  }
+  daily-card {
+    ion-list {
+      background: var(--dark-card-background);
+    }
+  }
 }
 .light {
+  .loaded-splash {
+    background: var(--light-card-background-darker);
+  }
   background: var(--light-card-background);
   --color: var(--light-text-color);
   ion-toolbar {
     --background: var(--light-header-background);
+    ion-title {
+      color: white;
+    }
   }
   ion-card.main-card {
     color: var(--light-text-color);
@@ -110,6 +136,132 @@
     background: var(--light-card-background-lighter);
     box-shadow: 0 -6px 9px -9px rgba(0, 0, 0, 0.5) inset, 0 8px 10px -10px rgba(0, 0, 0, 0.4) inset;
   }
+  ion-slides {
+    background: var(--light-card-background) !important;
+  }
+  daily-card {
+    ion-list {
+      background: var(--light-card-background);
+    }
+  }
+}
+.retro {
+  font-family: 'Star4000' !important;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 1px 2px 0 #000, 2px 1px 0 #000, 2px 2px 0 #000;
+  background: var(--retro-card-background-darker);
+  --color: var(--retro-text-color);
+  .loaded-splash {
+    background: var(--retro-card-background-darker);
+  }
+  ion-content.main-app {
+    background: var(--retro-card-background) !important;
+  }
+  app-main {
+    ion-toolbar {
+      --background: var(--retro-card-background-darker);
+      // --background: linear-gradient(180deg, var(--retro-gradient-orange) 0%, var(--retro-gradient-purple) 80%, var(--retro-gradient-purple) 100%);
+      ion-title {
+        font-family: 'Star4000' !important;
+        font-size: 24px;
+        color: var(--retro-temp-color);
+      }
+    }
+  }
+  ion-card.main-card {
+    font-family: 'Star4000';
+    color: var(--retro-text-color);
+    background: var(--retro-card-background);
+    ion-card-header {
+      ion-card-title {
+        color: var(--retro-text-color);
+      }
+    }
+    ion-item {
+      --background: var(--retro-card-background-darker);
+      --padding-start: 1px !important;
+      --padding-end: 2px !important;
+      --padding-bottom: 0 !important;
+      --padding-top: 0 !important;
+    }
+    .drawer {
+      -webkit-box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 1);
+      background: var(--retro-card-background);
+    }
+    .item-container {
+      background: linear-gradient(90deg, var(--retro-card-background-lighter) 0%, var(--retro-card-background-lighter) 30%, var(--retro-card-background) 100%);
+    }
+    &.background {
+      ion-card-header {
+        background: var(--retro-card-background-lighter);
+      }
+      background: var(--retro-card-background-darker);
+      // background: linear-gradient(180deg, var(--retro-gradient-purple) 0%, var(--retro-gradient-orange) 100%);
+    }
+  }
+  ion-card.minutely-card {
+    background: var(--retro-card-background-lighter);
+    ion-card-header {
+      background: var(--retro-card-background-lighter);
+    }
+  }
+  ion-card.list-item {
+    font-family: 'Star4000';
+    color: var(--retro-text-color);
+    background: linear-gradient(90deg, var(--retro-card-background-lighter) 0%, var(--retro-card-background-lighter) 30%, var(--retro-card-background) 100%);
+    border-radius: 0px;
+    // margin: 6px !important;
+    // box-shadow: 0 0 0 1px #000000, 0 0 0 4px var(--retro-darker-border), 0 0 0 5px #000000;
+  }
+  ion-item {
+    font-family: 'Star4000';
+    --color: var(--retro-text-color);
+  }
+  .temp {
+    color: var(--retro-temp-color);
+  }
+  .container {
+    background: var(--retro-card-background-lighter);
+    box-shadow: 0 -6px 9px -9px rgba(0, 0, 0, 0.5) inset, 0 8px 10px -10px rgba(0, 0, 0, 0.4) inset;
+  }
+  ion-slides {
+    background: var(--retro-card-background) !important;
+  }
+  main-card {
+    .main-image {
+      right: -5px !important;
+      bottom: -15px !important;
+      opacity: 1 !important;
+      img {
+        // max-height: 35px !important;
+      }
+    }
+  }
+  minutely-card .main-image {
+    right: -5px !important;
+    bottom: 4px !important;
+    opacity: 1 !important;
+    img {
+      // max-height: 35px !important;
+    }
+  }
+  hourly-card {
+    ion-list {
+      padding-top: 0px !important;
+      padding-bottom: 1px !important;
+    }
+    img {
+      max-height: 35px !important;
+    }
+  }
+  daily-card {
+    ion-list {
+      background: var(--retro-card-background);
+    }
+    img {
+      margin: 5px;
+      max-height: 50px !important;
+    }
+  }
 }
 ion-content {
   background: transparent;
@@ -135,9 +287,18 @@ ion-content {
 }
 
 ion-menu {
+  font-family: var(--ion-font-family);
+  text-shadow: none;
+  color: var(--dark-text-color);
   --width: 240px;
   .menu-list {
     height: 100%;
+    ion-item {
+      font-family: var(--ion-font-family);
+      color: var(--dark-text-color) !important;
+      --padding-start: 0;
+      --inner-padding-start: 15px;
+    }
   }
   .saved-places {
     height: calc(100% - 90px);
@@ -150,7 +311,7 @@ ion-menu {
       width: 85%;
     }
     .label {
-      padding-left: 16px;
+      padding-left: 5px;
       &.saved {
         margin-top: 15px;
       }
@@ -171,7 +332,6 @@ ion-menu {
     .theme-item {
       --padding-start: 0px;
       ion-label {
-        padding-left: 16px;
       }
       ion-note {
         font-size: 16px;
@@ -182,6 +342,28 @@ ion-menu {
     .toggle {
       position: absolute;
       right: 16px;
+    }
+  }
+}
+
+// z-index of components
+ion-content {
+  main-card {
+    z-index: 3;
+  }
+  minutely-card {
+    z-index: 2;
+  }
+  hourly-card {
+    z-index: 0;
+  }
+  daily-card {
+    z-index: 0;
+  }
+  ion-slides {
+    z-index: 1 !important;
+    .swiper-wrapper {
+      z-index: 1 !important;
     }
   }
 }

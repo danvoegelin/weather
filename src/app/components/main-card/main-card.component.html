@@ -1,4 +1,4 @@
-<ion-content (click)="toggleMinuteCard()" *ngIf=!loading>
+<ion-content (click)="toggleMinuteCard()">
     <ion-card class="main-card">
       <ion-card-header>
         <ion-card-title>
@@ -7,7 +7,7 @@
       </ion-card-header>
       <ion-card-content>
         <div class="main">
-          <div class="temp"><p>{{ weatherCurrent.temperature | number: '1.0-0' }}</p></div>
+          <div class="temp"><p>{{ weatherCurrent.temperature | number: '1.0-0' }}<span class="degree">{{ degree }}</span></p></div>
           <div class="desc"><p>{{ weatherCurrent.summary }}</p></div>
         </div>        
         <div class="info">
@@ -17,7 +17,7 @@
           <h5><p>Humidity:</p><p class="info-value">{{ weatherCurrent.humidity | percent }}</p></h5>
         </div>
         <div class="main-image">
-          <img [src]="weatherCurrent.icon" />
+          <img [src]="weatherCurrent.iconPath" />
         </div>
       </ion-card-content>
     </ion-card>

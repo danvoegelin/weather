@@ -1,4 +1,4 @@
-<ion-content *ngIf="!loading">
+<ion-content>
     <ion-card class="main-card background">
       <ion-card-header>
         <ion-card-title>
@@ -14,7 +14,7 @@
                   <p><span class="day">{{ day.time * 1000 | date: 'EEEE' }}</span></p>
                   <p><span class="date">{{ day.time * 1000 | date: 'M/d' }}</span></p>
                 </div>
-                <img [src]="day.icon" class="weather-icon" />
+                <img [src]="day.iconPath" class="weather-icon" />
                 <div class="post-box">
                   <span class="high temp">{{ day.apparentTemperatureHigh | number: '1.0-0' }}</span>
                   <span class="low">{{ day.apparentTemperatureLow | number: '1.0-0' }}</span>

@@ -18,10 +18,9 @@ export class MinutelyCardComponent implements OnInit {
   public weatherMinutely: WeatherMinutely;
   public weatherHourly: WeatherHourly;
   public weatherToday: DataDaily;
-  public totalPrecip: number = 0;
-  public rainStarting: number = 0;
-  public loading: boolean = true;
-  public minutelyData: boolean = false;
+  public totalPrecip = 0;
+  public rainStarting = 0;
+  public minutelyData = false;
 
   constructor(
     private weatherService: WeatherService,
@@ -29,23 +28,27 @@ export class MinutelyCardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getComponentWeatherData();
     this.dataService.reload.subscribe(() => {
-      this.loading = true;
-      this.weatherToday = this.dataService.getDailyWeather().data[0];
-      this.weatherHourly = this.dataService.getHourlyWeather();
-      this.weatherCurrent = this.dataService.getCurrentWeather();
-      this.weatherMinutely = this.dataService.getMinutelyWeather();
-      this.minutelyData = !!this.weatherMinutely;
-      this.getTotalPrecip();
-      this.loading = false;
+      this.getComponentWeatherData();
     });
+  }
+
+  getComponentWeatherData() {
+    this.weatherToday = this.dataService.getDailyWeather().data[0];
+    this.weatherHourly = this.dataService.getHourlyWeather();
+    this.weatherCurrent = this.dataService.getCurrentWeather();
+    this.weatherMinutely = this.dataService.getMinutelyWeather();
+    this.minutelyData = !!this.weatherMinutely;
+    this.getTotalPrecip();
   }
 
   getTotalPrecip(): void {
     this.totalPrecip = 0;
-    let percentageSecondHour = (((this.weatherCurrent.time - this.weatherHourly.data[0].time) / 60) / 60);
-    let percentageFirstHour = (1 - percentageSecondHour);
-    let rawPrecipTotal = (this.weatherHourly.data[0].precipIntensity * percentageFirstHour) + (this.weatherHourly.data[1].precipIntensity * percentageSecondHour);
+    const percentageSecondHour = (((this.weatherCurrent.time - this.weatherHourly.data[0].time) / 60) / 60);
+    const percentageFirstHour = (1 - percentageSecondHour);
+    const rawPrecipTotal = (this.weatherHourly.data[0].precipIntensity * percentageFirstHour)
+      + (this.weatherHourly.data[1].precipIntensity * percentageSecondHour);
     this.totalPrecip = parseFloat(rawPrecipTotal.toFixed(2));
   }
 

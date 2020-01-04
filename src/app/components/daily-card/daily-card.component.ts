@@ -13,7 +13,6 @@ import { DataService } from '@services/data-service/data.service';
 export class DailyCardComponent implements OnInit {
 
   public weatherDaily: WeatherDaily;
-  public loading: boolean = true;
 
   constructor(
     private weatherService: WeatherService,
@@ -21,10 +20,9 @@ export class DailyCardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.weatherDaily = this.dataService.getDailyWeather();
     this.dataService.reload.subscribe(() => {
-      this.loading = true;
       this.weatherDaily = this.dataService.getDailyWeather();
-      this.loading = false;
     });
   }
 
@@ -33,8 +31,14 @@ export class DailyCardComponent implements OnInit {
       day.expanded = false;
     } else {
       this.weatherDaily.data.map(dayItem => {
-        if (day == dayItem) {
+        if (day === dayItem) {
           dayItem.expanded = !dayItem.expanded;
+          if (day.time === this.weatherDaily.data[this.weatherDaily.data.length - 1].time) {
+            setTimeout(() => {
+              const lastItem = document.querySelectorAll('daily-card ion-list ion-item .expand-wrapper')[7];
+              lastItem.scrollIntoView({ block: 'end', inline: 'nearest', behavior: 'smooth' });
+            }, 400);
+          }
         } else {
           dayItem.expanded = false;
         }

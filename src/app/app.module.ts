@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
+import { RouteReuseStrategy, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
@@ -17,22 +17,27 @@ import { AppComponent } from './app.component';
 import { ApiService } from '@services/api-service/api.service';
 import { DataService } from '@services/data-service/data.service';
 import { WeatherService } from '@services/weather-service/weather.service';
-import { CustomGestureConfig } from '@services/hammer-config'
+import { RouteGuardService } from '@services/route-guard-service/route-guard.service';
+import { CustomGestureConfig } from '@services/hammer-config';
 import { MainPageModule } from '@pages/main/main.module';
+import { SplashPageModule } from '@pages/splash/splash.module';
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
-  entryComponents: [],
+  entryComponents: [
+  ],
   imports: [
     BrowserModule,
+    RouterModule.forRoot([]),
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
     MainPageModule,
+    SplashPageModule,
   ],
   providers: [
     MenuController,
@@ -42,6 +47,7 @@ import { MainPageModule } from '@pages/main/main.module';
     ApiService,
     DataService,
     WeatherService,
+    RouteGuardService,
     // AdMobFree,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HAMMER_GESTURE_CONFIG, useClass: CustomGestureConfig }

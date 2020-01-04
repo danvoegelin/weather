@@ -19,14 +19,12 @@ import { DailyCardComponentModule } from '@components/daily-card/daily-card.modu
     HourlyCardComponentModule,
     DailyCardComponentModule,
     RouterModule.forChild([
-        {
-            path: '',
-            component: MainPage
-        }
-    ])
+      {
+        path: '',
+        component: MainPage
+      }
+    ]),
   ],
-  declarations: [
-    MainPage
-  ]
+  declarations: [MainPage]
 })
 export class MainPageModule {}

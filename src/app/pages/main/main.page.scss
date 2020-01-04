@@ -1,33 +1,48 @@
-ion-toolbar {    
-    ion-title {
-        text-align: center;
-        color: white;
-        ion-icon {
-            color: white;
-        }
-    }
-    .refresh {
-        padding: 0 10px;
-        font-size: 30px;
-        color: var(--ion-color-medium-tint);
-        &.refreshing {        
-            -webkit-animation-name: spin;
-            -webkit-animation-duration: 20ms;
-            -webkit-animation-iteration-count: infinite;
-            -webkit-animation-timing-function: linear;
-        }
-    }
-     .menu {
-         font-size: 30px;
-     }
-     .hidden {
-        display: hidden;
-     }
+.splash {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #121212;
+    z-index: 10;
 }
-
+ion-header {
+    &.hide {
+        display: none;
+    }
+    ion-toolbar {
+        ion-title {
+            text-align: center;
+            ion-icon {
+                color: white;
+            }
+        }
+        .refresh {
+            padding: 0 10px;
+            font-size: 30px;
+            color: var(--ion-color-medium-tint);
+            &.refreshing {
+                -webkit-animation-name: spin;
+                -webkit-animation-duration: 20ms;
+                -webkit-animation-iteration-count: infinite;
+                -webkit-animation-timing-function: linear;
+            }
+        }
+         .menu {
+             font-size: 30px;
+         }
+         .hidden {
+            display: hidden;
+         }
+    }
+}
 ion-content {
     ion-slides {
-        height: 100%;
+        position: absolute;
+        top: 178px;
+        height: calc(100% - 178px);
+        width: 100%;
         background: var(--ion-color-light-tint);
         ion-slide {
             display: inline-block;

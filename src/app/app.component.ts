@@ -1,4 +1,5 @@
 import { Component, Input, ApplicationRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -10,6 +11,7 @@ import { Weather } from '@interfaces/weather.interface';
 import { Place, Location } from '@interfaces/places.interface';
 import { ApiService } from '@services/api-service/api.service';
 import { DataService } from '@services/data-service/data.service';
+import { WeatherService } from '@services/weather-service/weather.service';
 
 @Component({
   selector: 'app-root',
@@ -20,15 +22,15 @@ export class AppComponent {
   public data: Weather;
   public savedTheme: string;
   public savedThemeLabel: string;
-  public theme: string = 'light';
-  public init: boolean = false;
-  public loading: boolean = false;
+  public theme = 'retro';
+  public init = false;
+  public loading = false;
   public places: Place[];
   public savedLocations: Location[];
   public currentLocation;
   public location;
   public input: string;
-  public themeMenuOpen: boolean = false;
+  public themeMenuOpen = false;
   public themeModes: any[] = [
     {
       label: 'Dark',
@@ -48,6 +50,12 @@ export class AppComponent {
       icon: 'clock',
       active: this.theme === 'dynamic',
     },
+    {
+      label: 'Retro',
+      mode: 'retro',
+      icon: 'radio',
+      active: this.theme === 'retro',
+    },
   ];
   // private bannerConfig: AdMobFreeBannerConfig = {
   //   isTesting: true,
@@ -55,10 +63,12 @@ export class AppComponent {
   // };
 
   constructor(
+    private router: Router,
     private platform: Platform,
     private statusBar: StatusBar,
     private appMinimize: AppMinimize,
     private splashScreen: SplashScreen,
+    private weatherService: WeatherService,
     private dataService: DataService,
     private apiService: ApiService,
     private ref: ApplicationRef,
@@ -69,6 +79,9 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
+      this.router.navigate(['splash']).then(() => {
+        this.splashScreen.hide();
+      });
       this.dataService.getLocationFromStorage().then((locationRetrieved) => {
         this.currentLocation = locationRetrieved;
         if (locationRetrieved) {
@@ -80,14 +93,14 @@ export class AppComponent {
       });
       this.dataService.reload.subscribe(() => {
         this.dataService.getSavedTheme().then((savedTheme) => {
-          this.setTheme(savedTheme);
+          this.setTheme(savedTheme, false);
         });
       });
       this.statusBar.show();
-      setTimeout(this.hideSplash().bind(this), 500);
       this.backButtonSubscription = this.platform.backButton.subscribe(() => {
         this.appMinimize.minimize();
       });
+
       // this.admobFree.banner.config(this.bannerConfig);
       // this.admobFree.banner.prepare()
       //   .then(() => {
@@ -97,12 +110,6 @@ export class AppComponent {
       //   })
       // .catch(e => console.log(e));
     });
-  }
-
-  hideSplash() {
-    return function() {
-      this.splashScreen.hide();
-    }
   }
 
   refreshWeather(): Promise<any> {
@@ -128,18 +135,22 @@ export class AppComponent {
     this.themeMenuOpen = !this.themeMenuOpen;
   }
 
-  public setTheme(theme: string): void {
+  public setTheme(theme: string, reload: boolean = true): void {
     theme = theme || this.theme;
     this.savedTheme = theme;
     this.savedThemeLabel = this.getThemeLabel(theme);
     this.dataService.saveTheme(theme);
     this.theme = this.getDynamicTheme(theme);
+    this.weatherService.setTheme(this.theme);
+    if (reload) {
+      this.getAndSetWeather();
+    }
   }
 
   getDynamicTheme(theme: string): string {
-    let sunriseTime = this.dataService.getDailyWeather().data[0].sunriseTime;
-    let sunsetTime = this.dataService.getDailyWeather().data[0].sunsetTime;
-    let currentTime = this.dataService.getCurrentWeather().time;
+    const sunriseTime = this.dataService.getDailyWeather().data[0].sunriseTime;
+    const sunsetTime = this.dataService.getDailyWeather().data[0].sunsetTime;
+    const currentTime = this.dataService.getCurrentWeather().time;
 
     if (theme === 'dynamic') {
       theme = sunriseTime < currentTime && currentTime < sunsetTime ? 'light' : 'dark';

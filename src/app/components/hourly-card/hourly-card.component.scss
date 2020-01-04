@@ -1,7 +1,6 @@
 :host {
     position: absolute;
-    z-index: -2;
-    top: 174px;
+    top: 0px;
     height: 100%;
     width: 100%;
     left: 0px;
@@ -9,7 +8,6 @@
 
 ion-content {
     ion-card.main-card {
-        padding-top: 4px;
         overflow: auto;
         ion-card-header {
             ion-card-title {
@@ -42,7 +40,6 @@ ion-content {
 
             ion-list {
                 background: transparent;
-                padding-bottom: 175px;
                 padding-top: 0px;
                 width: 100%;
                 ion-item {
@@ -79,6 +76,7 @@ ion-content {
                                     }
                                 }
                                 .temp {
+                                    z-index: 1;
                                     font-size: 30px;
                                     position: absolute;
                                     left: 180px;
@@ -91,6 +89,7 @@ ion-content {
                                         padding: 0 5px;
                                         img {
                                             max-height: 42px;
+                                            width: auto;
                                         }
                                     }
                                     .precip {

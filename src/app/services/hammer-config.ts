@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import { HammerGestureConfig } from "@angular/platform-browser";
+import { Injectable } from '@angular/core';
+import { HammerGestureConfig } from '@angular/platform-browser';
 
 @Injectable()
 export class CustomGestureConfig extends HammerGestureConfig {
   // public overrides = {
   //   'swipe': { direction: Hammer.DIRECTION_ALL }
   // }
-  
+
   buildHammer(element: HTMLElement) {
     const mc = new Hammer(element);
 

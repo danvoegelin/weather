@@ -19,9 +19,12 @@ export class DataService {
 
   @Output() reload: EventEmitter<void> = new EventEmitter<void>();
   @Output() refreshing: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() hideSplash: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() loadSetLocation: EventEmitter<boolean> = new EventEmitter<boolean>();
+  public hideMainSplash: boolean;
   public currentLocation: Location;
   public data: Weather;
-  public location: string = 'Select A Location';
+  public location = 'Select A Location';
   public lat: number;
   public long: number;
   public weatherCurrent: WeatherCurrent;
@@ -32,13 +35,24 @@ export class DataService {
   getWeather(): Promise<Weather> {
     return new Promise((resolve) => {
       this.apiService.getWeather(this.lat, this.long).subscribe((data) => {
-        this.setData(data);
-        console.log(this.location, data.currently.summary, data.currently.temperature);
-        this.ref.tick();
-        this.reload.emit();
-        resolve(data);
+        this.getSavedTheme().then((theme) => {
+          this.weatherService.setTheme(theme);
+          this.setData(data);
+          console.log(this.location, data.currently.summary, data.currently.temperature);
+          this.callReload();
+          resolve(data);
+        });
       });
     });
+  }
+
+  callReload() {
+    this.reload.emit();
+  }
+
+  hideMainPageSplash(hide: boolean): void {
+    this.hideSplash.emit(hide);
+    this.hideMainSplash = true;
   }
 
   refreshWeather(): Promise<boolean> {
@@ -52,15 +66,15 @@ export class DataService {
   setLocation(place: Place): Promise<Location> {
     return new Promise((resolve) => {
       this.apiService.endPlacesSession();
-      let location: any = {};
+      const location: any = {};
       this.apiService.getPlaceDetail(place).subscribe((data) => {
-        let details = {
+        const details = {
           location: this.getLocationName(data.result.address_components),
           lat: data.result.geometry.location.lat,
           long: data.result.geometry.location.lng,
           place_id: place.place_id
-        }
-        this.setThisLocation(details)
+        };
+        this.setThisLocation(details);
         this.storage.set('setting:location', details).then((set) => {
           resolve(details);
         });
@@ -80,8 +94,10 @@ export class DataService {
   getLocationFromStorage(): Promise<Location> {
     return new Promise((resolve) => {
       this.storage.get(`setting:location`).then((data) => {
-        if (data) {
+        if (!!data) {
           this.setThisLocation(data);
+        } else {
+          this.loadSetLocation.emit();
         }
         resolve(data);
       });
@@ -96,7 +112,7 @@ export class DataService {
   }
 
   getLocationName(addressComponents: any): string {
-    let locationObject: any = {};
+    const locationObject: any = {};
     addressComponents.forEach((addressComponent) => {
       if (addressComponent.types.includes('neighborhood')) {
         locationObject.neighborhood = addressComponent.long_name;
@@ -117,13 +133,19 @@ export class DataService {
         locationObject.country = addressComponent.long_name;
       }
     });
-    return locationObject.neighborhood || locationObject.sublocality || locationObject.natural_feature || locationObject.locality || locationObject.administrative_area_level_1 || locationObject.country || 'unknown';
+    return locationObject.neighborhood
+      || locationObject.sublocality
+      || locationObject.natural_feature
+      || locationObject.locality
+      || locationObject.administrative_area_level_1
+      || locationObject.country
+      || 'unknown';
   }
 
   saveLocationToStorage(): Promise<any> {
     return new Promise((resolve) => {
       this.getSavedLocationsFromStorage().then((savedLocations: Location[]) => {
-        let newLocation = { locations: [this.currentLocation] };
+        const newLocation = { locations: [this.currentLocation] };
         let newLocationList: Location[];
         if (savedLocations === null) {
           newLocationList = [this.currentLocation];
@@ -140,10 +162,10 @@ export class DataService {
   }
 
   locationIsntSaved(savedLocations: Location[], location: Location): boolean {
-    let matchingLocations = savedLocations.filter((loc) => {
+    const matchingLocations = savedLocations.filter((loc) => {
       return loc.place_id === location.place_id;
     });
-    return !matchingLocations.length
+    return !matchingLocations.length;
   }
 
   getSavedLocationsFromStorage(): Promise<Location[]> {
@@ -155,13 +177,13 @@ export class DataService {
   }
 
   saveTheme(theme: string) {
-    this.storage.set('setting:theme', { theme: theme } );
+    this.storage.set('setting:theme', { theme: theme } ); // tslint:disable-line
   }
 
   getSavedTheme(): Promise<string> {
     return new Promise((resolve) => {
       this.storage.get('setting:theme').then((savedTheme) => {
-        let theme = savedTheme ? savedTheme.theme : 'light';
+        const theme = savedTheme ? savedTheme.theme : 'retro';
         resolve(theme);
       });
     });
@@ -170,7 +192,7 @@ export class DataService {
   removeSavedLocationFromStorage(location: Location): Promise<any> {
     return new Promise((resolve) => {
       this.getSavedLocationsFromStorage().then((savedLocations: Location[]) => {
-        let newLocationList = savedLocations.filter((loc) => {
+        const newLocationList = savedLocations.filter((loc) => {
           return loc.place_id !== location.place_id;
         });
         this.storage.set('setting:savedLocations', newLocationList).then((set) => {
@@ -191,12 +213,14 @@ export class DataService {
 
   filterData(data: Weather): Weather {
     data.hourly.data = data.hourly.data.slice(0, 24);
-    data.currently.icon = this.weatherService.getWeatherIcon(data.currently);
-    for (let i = 0; i < data.daily.data.length; i++) {
-      data.daily.data[i].icon = this.weatherService.getWeatherIcon(data.daily.data[i]);
+    data.currently.iconPath = this.weatherService.getWeatherIcon(data.currently);
+    // for (let i = 0; i < data.daily.data.length; i++) {
+    for (const day of data.daily.data) {
+      day.iconPath = this.weatherService.getWeatherIcon(day);
     }
-    for (let i = 0; i < data.hourly.data.length; i++) {
-      data.hourly.data[i].icon = this.weatherService.getWeatherIcon(data.hourly.data[i]);
+    // for (let i = 0; i < data.hourly.data.length; i++) {
+    for (const hour of data.hourly.data) {
+      hour.iconPath = this.weatherService.getWeatherIcon(hour);
     }
     return data;
   }
@@ -206,18 +230,19 @@ export class DataService {
     data.currently.totalPrecip = this.weatherService.getTotalPrecip(data.currently);
     data.currently.uvIndexValue = this.weatherService.getUVIndexValue(data.currently);
     data.currently.uvIndexClass = this.weatherService.getUVIndexClass(data.currently.uvIndexValue);
-    for (let i = 0; i < data.daily.data.length; i++) {
-      data.daily.data[i].totalPrecip = this.weatherService.getTotalPrecip(data.daily.data[i]);
+    // for (let i = 0; i < data.daily.data.length; i++) {
+    for (const day of data.daily.data) {
+      day.totalPrecip = this.weatherService.getTotalPrecip(day);
     }
     if (data.minutely) {
       for (let i = 0; i < data.minutely.data.length; i++) {
         data.minutely.data[i].chartHeight = this.weatherService.getMinutelyChartHeight(data.minutely.data[i]);
-        if (data.minutely.rainStarting === undefined && parseInt(data.minutely.data[i].chartHeight) > 0) {
+        if (data.minutely.rainStarting === undefined && parseInt(data.minutely.data[i].chartHeight, 10) > 0) {
           data.minutely.rainStarting = i;
         }
       }
     }
-    return data
+    return data;
   }
 
   getCurrentWeather(): WeatherCurrent {

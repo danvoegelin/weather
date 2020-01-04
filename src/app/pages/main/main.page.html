@@ -1,4 +1,5 @@
-<ion-header>
+<div class="splash" *ngIf="!hideSplash"></div>
+<ion-header *ngIf="init && hideSplash">
     <ion-toolbar>
         <ion-buttons slot="start" class="menu" >
             <ion-menu-button color="medium" autoHide="false">
@@ -11,22 +12,24 @@
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-<ion-content [ngClass]="loading ? '' : 'fade-in'" overflow-scroll=”true”>
+<ion-content *ngIf="init && locationSet"
+             [ngClass]="loading ? 'main-app' : 'fade-in main-app'"
+             overflow-scroll="true">
 <!--     <ion-refresher slot="fixed"
                    (ionRefresh)="refreshData()"
                    pullingIcon="refresh"
                    disabled="disableRefresh">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher> -->
+    <main-card
+               (minutelyCard)="toggleMinuteCard()"
+               [ngClass]="minutelyCardVisible ? 'expanded' : 'collapsed'">
+    </main-card>
+    <minutely-card [ngClass]="{'show': minutelyCardVisible && !minutelyCardDefault, 'hide': !minutelyCardVisible && !minutelyCardDefault, 'default': minutelyCardDefault, 'small': noMinutelyData}"
+                   (minutelyCard)="toggleMinuteCard($event)">
+    </minutely-card>
     <ion-slides [options]="slideOpts">
         <ion-slide>
-            <main-card
-                       (minutelyCard)="toggleMinuteCard()"
-                       [ngClass]="minutelyCardVisible ? 'expanded' : 'collapsed'">
-            </main-card>
-            <minutely-card [ngClass]="{'show': minutelyCardVisible && !minutelyCardDefault, 'hide': !minutelyCardVisible && !minutelyCardDefault, 'default': minutelyCardDefault, 'small': noMinutelyData}"
-                           (minutelyCard)="toggleMinuteCard($event)">
-            </minutely-card>
             <hourly-card></hourly-card>
         </ion-slide>
         <ion-slide>
